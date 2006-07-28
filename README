@@ -1,0 +1,66 @@
+       this  code is all my configuration files - bashrc, vimrc, &c. the
+       kind of stuff i don’t like rewriting  every time i go  to  a  new
+       system.  the  makefile is really  superfulous in this case - it’s
+       function can be  repliacted  by simplying  checking out the ’src’
+       directory.  the ’dist’ target  generates  a zipfile of this whole
+       directory in the directory above it.
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
