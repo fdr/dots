@@ -96,3 +96,4 @@ export  HISTIGNORE="&:h:exit"
 export	RUBYOPT=rubygems
 export	EDITOR="vi"
 export	PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:.
+export	TZ=/usr/share/zoneinfo/America/Los_Angeles
