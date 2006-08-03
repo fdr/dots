@@ -3,7 +3,7 @@ wait_to_ssh()
 	host=`echo ${1} | awk -F@ '{ print \$2 }'`
 	while true
 	do
-	echo "ping -c 1 ${host} && ssh ${1}"
+	ping -c 1 ${host} && ssh ${1}
 	sleep 1
 	done
 }
