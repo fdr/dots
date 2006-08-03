@@ -1,3 +1,13 @@
+wait_to_ssh()
+{
+	host=`echo ${1} | awk -F@ '{ print \$2 }'`
+	while true
+	do
+	echo "ping -c 1 ${host} && ssh ${1}"
+	sleep 1
+	done
+}
+
 load_file_if_exists()
 {
 	if [ -f "$1" ]
@@ -26,6 +36,7 @@ then
 fi
 
 load_file_if_exists	$bc
+load_file_if_exists	/etc/profile
 
 
 alias	go='pushd'
@@ -34,6 +45,7 @@ alias	h='history'
 alias	r='rm -r'
 alias	c='clear'
 alias	l='ls --color'
+alias	ll='ls -lA --color'
 alias	t='tail -n 50'
 
 pskill()
