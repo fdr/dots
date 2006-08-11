@@ -47,6 +47,7 @@ alias	c='clear'
 alias	l='ls --color'
 alias	ll='ls -lA --color'
 alias	t='tail -n 50'
+alias	g='egrep --color'
 
 pskill()
 {
