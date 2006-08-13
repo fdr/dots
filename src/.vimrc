@@ -11,7 +11,7 @@ set foldminlines=4
 
 set shiftwidth=2
 set tabstop=2
-set noexpandtab
+set expandtab
 
 
 filetype plugin indent on
