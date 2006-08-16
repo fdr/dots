@@ -1,5 +1,4 @@
 set background=dark
-set paste
 set autoindent
 set ruler
 set showcmd
