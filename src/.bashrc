@@ -120,5 +120,5 @@ set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
 
 export  HISTIGNORE="&:h:exit"
 export  RUBYOPT=rubygems
-export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:.
+export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export  TZ=/usr/share/zoneinfo/America/Los_Angeles
