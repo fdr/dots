@@ -86,7 +86,7 @@ time_of_day()
 
 present_working_directory()
 {
-  local d=`pwd | awk '{ printf "%-66s", $1 }'`
+  local d=`pwd | awk '{ printf "%-64s", $1 }'`
   echo -n "${d}"
 }
 
@@ -100,7 +100,7 @@ set_prompt()
   local tty=`tty | awk -F/ '{ print $3 $4}'`
   local   red="\[\e[01;31m\]"
   local normal="\[\e[00;0m\]"
-  local p="${red}: `full_prompt_data` ;\n${normal} "
+  local p="${red} : `full_prompt_data` ;\n${normal} "
   local xterm_title="\[\e]0;${tty} \u@\H\007\]"
   if [ "${TERM}" = "xterm" ]
   then
