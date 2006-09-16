@@ -1,9 +1,11 @@
 #!/bin/sh
 
-for f in src/*
+for f in source/*
 do
   here="${PWD}/${f}"
   there="${HOME}/.`basename ${f}`"
-  rm -f ${there}
-  ln -s ${here} ${there}
+  clean="rm -f ${there}"
+  foo="ln -s ${here} ${there}"
+  eval ${clean}
+  eval ${foo}
 done
