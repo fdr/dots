@@ -1,0 +1,7 @@
+nethack on
+vbell on
+
+caption always "%{=u} %?%F%{+b}%?%=%-w%n%{-u} %{+u}%t%+w%= "
+
+
+

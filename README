@@ -1,10 +1,8 @@
-       this  code is all my configuration files - bashrc, vimrc, &c. the
-       kind of stuff i don’t like rewriting  every time i go  to  a  new
-       system.  the  makefile is really  superfulous in this case - it’s
-       function can be  repliacted  by simplying  checking out the ’src’
-       directory.  the ’dist’ target  generates  a zipfile of this whole
-       directory in the directory above it.
-       
+This file contains my personal environment, which I hope to take with me from
+place to place. Running from the project root directory puts a bunch of likes
+to the source files in my home dir.
+
+                  make install
        
        
        
