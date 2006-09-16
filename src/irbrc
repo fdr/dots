@@ -1,12 +1,24 @@
-# vim: set syntax=ruby
-require "irb/completion"
-require "yaml"
+#!/usr/bin/env ruby
+
+%w{
+irb/completion
+wirble
+}.each { |lib| require lib rescue nil }
+
+Wirble.init(:init_colors => true)
 
 IRB.conf[:PROMPT][:SPARSE] = {
   :PROMPT_I => "",
   :PROMPT_S => "",
   :PROMPT_C => "",
-  :RETURN  =>  "#> %s\n"
+  :RETURN  =>  " # => %s\n"
 }
 
 IRB.conf[:PROMPT_MODE] = :SPARSE
+IRB.conf[:AUTO_INDENT] = true
+IRB.conf[:EVAL_HISTORY] = 1000 
+IRB.conf[:SAVE_HISTORY] = 100
+
+load ".irbrc" if File.file? ".irbrc"  ## load local .irbrc files!
+                                      ## this is a security risk!
+
