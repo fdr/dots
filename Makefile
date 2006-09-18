@@ -1,6 +1,7 @@
 # i hate make
 #
-install: run-link-script
+install: link-source
 
-run-link-script:
-	install/link-all.sh
+link-source:
+	install/link-source.sh
+
