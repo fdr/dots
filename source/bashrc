@@ -41,9 +41,14 @@ bc="bash_completion"
 if [[ `uname` = 'FreeBSD' ]]
 then
   bc="/usr/local/etc/${bc}"
+  alias l='ls -G'
+  alias ll='ls -lA --color'
+
 elif [[ `uname` = 'Linux' ]]
 then
   bc="/etc/${bc}"
+  alias l='ls --color'
+  alias ll='ls -lA --color'
 fi
 
 load_file_if_exists $bc
@@ -55,8 +60,6 @@ alias b='popd'
 alias h='history'
 alias r='rm -r'
 alias c='clear'
-alias l='ls --color'
-alias ll='ls -lA --color'
 alias t='tail -n 50'
 alias g='egrep --color'
 
