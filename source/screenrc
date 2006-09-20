@@ -1,19 +1,22 @@
 nethack on
 vbell on
 
-#               {1     } {2                 }
-caption always "%{-s} %= %-w%{+b}%n %t%{-b}%+w %= "
+#               |1     | |2                  | |3     |
+caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
 #
-#  1    delete the default "standout" style. following space makes the new
-#       style take effect right away - if it wasn't there, the hfill (%=)
-#       would be in the default style.
+#  |1|  blocks in the left margin with white and switches to plain style
+#       with |3| serves to center the text
+#         %=      fill
+#         %{-s}   turn off standout style
 #
-#  2    a big mess, which has to be all run together to get the spacing right.
-#         %-w     is all windows up to the current window
-#         %+w     is all windows following the current window
-#         %n %t   constructs a listing for the current window
-#       this section of the code lists the current window in bold, and the
-#       others plain.
-# 
-# the %= thingies serve to center the text.
+#  |2|  a big mess, which has to be all run together to get the spacing right
+#       lists all windows, with the current window in bold
+#         %-w     all windows up to the current window
+#         %+w     all windows following the current window
+#         %n %t   construct a listing for the current window
+#
+#  |3|  blocks in the right margin
+#       with |1| serves to center the text
+#         %{+s}   turn standout style back on
+#         %=      fill
 
