@@ -5,6 +5,7 @@
 irb/completion
 pp
 wirble
+breakpoint
 }.each { |lib| require lib rescue nil }
 
 
