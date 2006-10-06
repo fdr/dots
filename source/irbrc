@@ -3,6 +3,7 @@
 
 %w{
 irb/completion
+pp
 wirble
 }.each { |lib| require lib rescue nil }
 
