@@ -12,6 +12,13 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 
+" begin # freebsd needs these
+" i wonder if they freak out linux?
+set backspace=indent,eol,start
+syntax on
+set hlsearch
+" end # freebsd needs these
+
 
 filetype plugin indent on
 
