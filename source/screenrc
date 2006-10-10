@@ -1,5 +1,6 @@
 nethack on
 vbell on
+defutf8 on
 
 #               |1     | |2                  | |3     |
 caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
