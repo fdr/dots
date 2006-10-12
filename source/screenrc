@@ -2,7 +2,19 @@ nethack on
 vbell on
 defutf8 on
 
-#               |1     | |2                  | |3     |
+defscrollback 2560
+backtick 1 1 1 date -u +%Y-%m-%dT%TZ
+
+logtstamp on
+logtstamp after 250
+logtstamp string "%1`" 
+logfile "screenlog.%t.%1`"
+
+bindkey -t "^asudo" screen sudo -s
+bindkey -t "^airb" screen irb
+bindkey -t "^avim" screen vim
+
+#               |1     | |2                  | |3     |i
 caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
 #
 #  |1|  blocks in the left margin with white and switches to plain style
