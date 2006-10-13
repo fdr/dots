@@ -1,16 +1,22 @@
 #!/usr/bin/env ruby
 
-
 %w{
 irb/completion
 pp
-wirble
 breakpoint
-}.each { |lib| require lib rescue nil }
+}.each do |lib|
+  begin
+    require lib
+  rescue LoadError => e
+    puts e
+  end
+end
 
-
-Wirble.init(:init_colors => true)
-
+begin
+  Wirble.init(:init_colors => true) if require "wirble"
+rescue LoadError => e
+  puts e
+end
 
 IRB.conf[:PROMPT][:SPARSE] = {
   :PROMPT_I => "",
