@@ -121,9 +121,11 @@ export  PROMPT_COMMAND='set_prompt'
 
 set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
 
-export  BROWSER="firefox"
-export  HISTIGNORE="&:h:exit"
 export  RUBYLIB=""
 export  RUBYOPT="-rrubygems"
+export  KCODE="utf-8"
+
+export  BROWSER="firefox"
+export  HISTIGNORE="&:h:exit"
 export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export  TZ=/usr/share/zoneinfo/America/Los_Angeles
