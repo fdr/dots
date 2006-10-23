@@ -40,5 +40,9 @@ def refresh
   Dir.glob("lib/*.rb") {|f| load(f) if File.file?(f) }
 end
 
+def ri(arg)
+  puts `ri #{arg}`
+end
+
 refresh
 
