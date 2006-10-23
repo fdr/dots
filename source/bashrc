@@ -121,7 +121,6 @@ export  PROMPT_COMMAND='set_prompt'
 
 set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
 
-export  RUBYLIB=""
 export  RUBYOPT="-rrubygems -Ku"
 
 
