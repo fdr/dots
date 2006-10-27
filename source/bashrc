@@ -42,13 +42,16 @@ if [[ `uname` = 'FreeBSD' ]]
 then
   bc="/usr/local/etc/${bc}"
   alias l='ls -G'
-  alias ll='ls -lA --color'
-
+  alias ll='ls -GlA'
 elif [[ `uname` = 'Linux' ]]
 then
   bc="/etc/${bc}"
   alias l='ls --color'
   alias ll='ls -lA --color'
+else
+  bc="/etc/${bc}"
+  alias l='ls'
+  alias ll='ls -lA'
 fi
 
 load_file_if_exists $bc
