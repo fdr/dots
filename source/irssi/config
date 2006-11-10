@@ -12,7 +12,7 @@ servers = (
     chatnet = "QuakeNet";
     port = "6667";
   },
-  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; }
+  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; },
   { address = "im.bitlbee.org"; chatnet = "BEE"; port = "6667"; }
 );
 
@@ -225,8 +225,9 @@ settings = {
     timestamp_format = "%H:%M:%S";
   };
   "fe-text" = { autostick_split_windows = "no"; };
-  "fe-common/core" = { 
+  "fe-common/core" = {
     autocreate_split_windows = "yes";
     autolog = "yes";
+    term_charset = "UTF-8";
   };
 };
