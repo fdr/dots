@@ -14,7 +14,11 @@ servers = (
   },
   { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; },
   { address = "im.bitlbee.org"; chatnet = "BEE"; port = "6667"; },
-  { address = "irc.freenode.net"; chatnet = "FreeNode"; port = "6667"; }
+  { 
+    address = "irc.freenode.net";
+    chatnet = "FreeNode";
+    port = "6667";
+  },
 
 );
 
@@ -51,13 +55,25 @@ chatnets = {
     max_whois = "30";
   };
   SILC = { type = "SILC"; };
-  BEE = { type = "IRC"; username = "jsnx"; };
-  FreeNode = { type = "IRC"; username = "j_s_n_x"; };
+  BEE = {
+    type = "IRC";
+    username = "jsnx";
+    nick = "jsnx";
+    autosendcmd = "/^msg &bitlbee identify breadbeard; wait -BEE 2000";
+  };
+  FreeNode = {
+    type = "IRC";
+    username = "jsnx";
+    nick = "jsnx";
+    autosendcmd = "/^msg nickserv identify breadbeard; wait -FreeNode 2000";
+  };
 };
 
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-  { name = "silc"; chatnet = "silc"; autojoin = "No"; }
+  { name = "silc"; chatnet = "silc"; autojoin = "No"; },
+  { name = "#gentoo"; chatnet = "FreeNode"; autojoin = "yes"; },
+  { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -224,8 +240,8 @@ settings = {
   core = {
     real_name = "Jason Dusek";
     user_name = "jsn";
-    nick = "jsnx";
     timestamp_format = "%H:%M:%S";
+    nick = "jsn";
   };
   "fe-text" = { autostick_split_windows = "no"; };
   "fe-common/core" = {
@@ -234,3 +250,4 @@ settings = {
     term_charset = "UTF-8";
   };
 };
+logs = { };
