@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$:.unshift "lib" # ensure that any local libs are included in the search path
+
 %w{
 irb/completion
 pp
@@ -38,6 +40,7 @@ def refresh
   load ".irbrc" if File.file? ".irbrc" and Dir.pwd != ENV['HOME']
   # load local libs 
   Dir.glob("lib/*.rb") {|f| load(f) if File.file?(f) }
+  Dir.glob("lib/*/*.rb") {|f| load(f) if File.file?(f) }
 end
 
 def ri(arg)
