@@ -15,7 +15,7 @@ $VERSION = '1.2';
 
 my $root_nick = 'root';
 my $bitlbee_channel = '&bitlbee';
-my $bitlbee_server_tag = 'localhost';
+my $bitlbee_server_tag = 'im.bitlbee.org';
 my $get_completions = 0;
 
 my @commands;

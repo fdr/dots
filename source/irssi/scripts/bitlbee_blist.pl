@@ -13,6 +13,7 @@ $VERSION = '0.4';
 );
 
 my $bitlbee_server_tag = "localhost";
+my $bitlbee_server_tag = "im.bitlbee.org";
 my $bitlbee_channel = "&bitlbee";
 my ($list, $word);
 
