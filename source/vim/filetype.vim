@@ -6,3 +6,8 @@ augroup markdown
   au! BufRead,BufNewFile *.mkd   setfiletype mkd
 augroup END
 
+" rake files should be recognized, too
+augroup ruby
+  au! BufRead,BufNewFile *.rake  setfiletype ruby
+augroup END
+
