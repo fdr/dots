@@ -73,7 +73,10 @@ channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
   { name = "#gentoo"; chatnet = "FreeNode"; autojoin = "yes"; },
-  { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; }
+  { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; },
+  { name = "#rubyonrails"; chatnet = "FreeNode"; },
+  { name = "#yitan"; chatnet = "FreeNode"; },
+  { name = "#svn"; chatnet = "FreeNode"; }
 );
 
 aliases = {
@@ -242,6 +245,7 @@ settings = {
     user_name = "jsn";
     timestamp_format = "%H:%M:%S";
     nick = "jsn";
+    recode_transliterate = "no";
   };
   "fe-text" = { autostick_split_windows = "no"; };
   "fe-common/core" = {
