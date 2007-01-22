@@ -126,7 +126,7 @@ set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
 
 export  RUBYOPT="${RUBYOPT} -Ku"
 
-export  HISTTIMEFORMAT='%FT%T  '
+export  HISTTIMEFORMAT='%T  '
 export  HISTIGNORE="&:h:exit"
 
 export  BROWSER="firefox"
