@@ -20,14 +20,17 @@ rescue LoadError => e
   puts e
 end
 
+#IRB.conf[:PROMPT][:SPARSE] = 'abc'
+
+
 IRB.conf[:PROMPT][:SPARSE] = {
   :PROMPT_I => "",
   :PROMPT_S => "",
   :PROMPT_C => "",
   :RETURN  =>  " # => %s\n"
 }
-
 IRB.conf[:PROMPT_MODE] = :SPARSE
+
 IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:EVAL_HISTORY] = 1000 
 IRB.conf[:SAVE_HISTORY] = 100
