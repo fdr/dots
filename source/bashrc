@@ -1,12 +1,8 @@
-wait_to_ssh()
-{
-  host=`echo ${1} | awk -F@ '{ print \$2 }'`
-  while true
-  do
-  ping -c 1 ${host} > /dev/null && ssh ${1}
-  sleep 1
-  done
-}
+#!/usr/bin/env bash
+#
+# My .bashrc is full of functions and macros -- the macros especially have
+# taken me years to understand.
+#
 
 load_file_if_exists()
 {
@@ -65,6 +61,7 @@ alias r='rm -r'
 alias c='clear'
 alias t='tail -n 50'
 alias g='egrep --color'
+alias x='exit'
 
 pskill()
 {
@@ -75,60 +72,47 @@ pskill()
         kill -9 $pid
 }
 
-history_number()
-{
-  local num=`history | tail -n 1 | awk '{ printf "%3d", $1 + 1 }'`
-  if [ -z $num ]; then
-    num='  1'
-  fi
-  echo -n "${num}"
-}
-
-time_of_day()
-{
-  local t=`date +%R`
-  echo -n "${t}"
-}
-
-present_working_directory()
-{
-  local d=`pwd | awk '{ printf "%-64s", $1 }'`
-  echo -n "${d}"
-}
-
-full_prompt_data()
-{
-  echo "`present_working_directory` `time_of_day` `history_number`"
-}
-
-set_prompt()
-{
-  local tty=`tty | awk -F/ '{ print $3 $4}'`
-  local   red="\[\e[01;31m\]"
-  local normal="\[\e[00;0m\]"
-  local p="${red} : `full_prompt_data` ;\n${normal} "
-  local xterm_title="\[\e]0;${tty} \u@\H\007\]"
-  if [ "${TERM}" = "xterm" ]
-  then
-    export  PS1="${xterm_title}${p}"
-  else
-    export  PS1="${p}"
-  fi
-  export  PS2=" "
-  export  PS3=" "
-}
 
 umask 002
+set -o vi
 
-export  PROMPT_COMMAND='set_prompt'
+
+#######################################################################
+# I used to have the prompt set up as a bunch of functions; but that
+# didn't work very well with sh. Now, I have mastered the various
+# levels of evaluation and quoting of the shell and can confidently
+# write hideous macros!
+## begin prompt of power
+
+HIGH="\[\e[01;31m\]"
+NORM="\[\e[00;0m\]"
+
+d="pwd | awk '{ printf \"%-64s\", \$1 }'"
+t="date +%R"
+h="history | tail -n 1 | xargs echo '' | awk '{ printf \"%3d\", \$1 + 1 }'"
+
+prompt="${HIGH} \`${d}\`  \`${t}\`  \`${h}\` ;\n  ${NORM}"
+
+prepend=''
+if [ "${TERM}" = "xterm" ]
+then
+  my_tty=`tty | awk -F/ '{ print $3 $4}'`
+  xterm_title="\[\e]0;${my_tty} \u@\H\007\]"
+  prepend="${xterm_title}"
+fi
+
+export  PROMPT_COMMAND="export PS1=\"${prepend}${prompt}\""
+
+export PS2='  '
+
+## end prompt of power
+#######################################################################
+
 
 set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
 
 export  RUBYOPT="${RUBYOPT} -Ku"
-
-export  HISTTIMEFORMAT='%T  '
-export  HISTIGNORE="&:h:exit"
-
 export  BROWSER="firefox"
+export  HISTIGNORE="&:h:exit"
 export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export  TZ=/usr/share/zoneinfo/America/Los_Angeles
