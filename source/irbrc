@@ -6,6 +6,7 @@ $:.unshift "lib" # ensure that any local libs are included in the search path
 irb/completion
 pp
 breakpoint
+pathname
 }.each do |lib|
   begin
     require lib
@@ -40,7 +41,9 @@ IRB.conf[:SAVE_HISTORY] = 100
 # ¡this is a security risk!
 def refresh
   # load local .irbrc files
-  load ".irbrc" if File.file? ".irbrc" and Dir.pwd != ENV['HOME']
+  d = Pathname.new(Dir.pwd).realpath
+  h = Pathname.new(ENV['HOME']).realpath
+  load ".irbrc" if File.file? ".irbrc" and d != h
   # load local libs 
   Dir.glob("lib/*.rb") {|f| load(f) if File.file?(f) }
   Dir.glob("lib/*/*.rb") {|f| load(f) if File.file?(f) }
