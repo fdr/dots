@@ -44,9 +44,7 @@ def refresh
   d = Pathname.new(Dir.pwd).realpath
   h = Pathname.new(ENV['HOME']).realpath
   load ".irbrc" if File.file? ".irbrc" and d != h
-  # load local libs 
-  Dir.glob("lib/*.rb") {|f| load(f) if File.file?(f) }
-  Dir.glob("lib/*/*.rb") {|f| load(f) if File.file?(f) }
+  `find -name '*.rb' -type f -print0`.split("\000").each{|f| load(f) }
 end
 
 def ri(arg)
