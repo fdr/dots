@@ -44,7 +44,21 @@ def refresh
   d = Pathname.new(Dir.pwd).realpath
   h = Pathname.new(ENV['HOME']).realpath
   load ".irbrc" if File.file? ".irbrc" and d != h
-  `find -name '*.rb' -type f -print0`.split("\000").each{|f| load(f) }
+  files = `find -name '*.rb' -type f -print0`.split("\000")
+  files.each{|f| load(f) }
+  files.each{|f| puts display_pathname(72, 2, Pathname.new(f).realpath.to_s) }
+  nil
+end
+
+def display_pathname(w, i, s, r = "\n")
+  indent = ' ' * (2 * i)
+  if ind = s.index('/')
+    len = r.length - r.rindex("\n") + ind
+    display_pathname( w, i, s[(ind + 1)..-1],
+                      r + ( len < w ? '' : indent + "\n" ) + s[0..ind] )
+  else
+    r.sub(/^\n/, ' ' * i).gsub(indent + "\n", "\n" + indent) + s
+  end
 end
 
 def ri(arg)
