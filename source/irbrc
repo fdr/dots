@@ -46,6 +46,7 @@ def refresh
   load ".irbrc" if File.file? ".irbrc" and d != h
   files = `find -name '*.rb' -type f -print0`.split("\000")
   files.each{|f| load(f) }
+  puts ' ' + banner(78, 'reloaded')
   files.each{|f| puts display_pathname(72, 2, Pathname.new(f).realpath.to_s) }
   nil
 end
@@ -59,6 +60,14 @@ def display_pathname(w, i, s, r = "\n")
   else
     r.sub(/^\n/, ' ' * i).gsub(indent + "\n", "\n" + indent) + s
   end
+end
+
+def banner(w, s)
+  a = /^[[:space:]]+/.match(s.center(w))
+  b = /[[:space:]]+$/.match(a.post_match)
+  [ a[0], b[0] ].collect do |s|
+    '=' * (s.length - 1)
+  end.join(' ' + b.pre_match + ' ')
 end
 
 def ri(arg)
