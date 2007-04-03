@@ -46,7 +46,7 @@ def refresh
   load ".irbrc" if File.file? ".irbrc" and d != h
   files = `find -name '*.rb' -type f -print0`.split("\000")
   files.each{|f| load(f) }
-  puts ' ' + banner(78, 'reloaded')
+  puts ' ' + banner(78, 'loaded')
   files.each{|f| puts display_pathname(72, 2, Pathname.new(f).realpath.to_s) }
   nil
 end
@@ -66,8 +66,9 @@ def banner(w, s)
   a = /^[[:space:]]+/.match(s.center(w))
   b = /[[:space:]]+$/.match(a.post_match)
   [ a[0], b[0] ].collect do |s|
-    '=' * (s.length - 1)
-  end.join(' ' + b.pre_match + ' ')
+    '=' * (s.length - 3)
+  end.join( ([' = '] * 2).join(b.pre_match) )
+  # Note that there is a pathology when s.length is very close to w
 end
 
 def ri(arg)
