@@ -48,12 +48,10 @@ def refresh
     %r|^./lib/|.match(s)
   end
   unless files.length.zero?
-    puts "files exists"
-    #files.each{|f| load(f) }
-    puts ' ' + banner(78, 'loaded')
-    files.each do |f|
-      puts display_pathname(72, 2, Pathname.new(f).realpath.to_s)
-    end
+    files.collect do |f|
+      load(f)
+      display_pathname(72, 2, Pathname.new(f).realpath.to_s)
+    end.unshift(' ' + banner(78, 'loaded')).each{|s| puts s }
   else
     puts ' ' + banner(78, 'no libs to load')
   end
@@ -83,6 +81,8 @@ end
 def ri(arg)
   puts `ri #{arg}`
 end
+
+alias x exit
 
 refresh
 
