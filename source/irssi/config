@@ -72,7 +72,7 @@ chatnets = {
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
-  { name = "#gentoo"; chatnet = "FreeNode"; autojoin = "yes"; },
+  { name = "#gentoo"; chatnet = "FreeNode"; },
   { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; },
   { name = "#rubyonrails"; chatnet = "FreeNode"; },
   { name = "#yitan"; chatnet = "FreeNode"; },
