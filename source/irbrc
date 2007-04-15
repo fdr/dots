@@ -15,14 +15,6 @@ pathname
   end
 end
 
-begin
-  Wirble.init(:init_colors => true) if require "wirble"
-rescue LoadError => e
-  puts e
-end
-
-#IRB.conf[:PROMPT][:SPARSE] = 'abc'
-
 
 IRB.conf[:PROMPT][:SPARSE] = {
   :PROMPT_I => "",
@@ -38,22 +30,22 @@ IRB.conf[:SAVE_HISTORY] = 100
 
 
 # load local environment
-# ¡this is a security risk!
+# this is a security risk!
 def refresh
   # load local .irbrc files
-  d = Pathname.new(Dir.pwd).realpath
-  h = Pathname.new(ENV['HOME']).realpath
-  load ".irbrc" if File.file? ".irbrc" and d != h
-  files = `find -name '*.rb' -type f -print0`.split("\000").select do |s|
-    %r|^./lib/|.match(s)
-  end
-  unless files.length.zero?
-    files.collect do |f|
-      load(f)
-      display_pathname(72, 2, Pathname.new(f).realpath.to_s)
-    end.unshift(' ' + banner(78, 'loaded')).each{|s| puts s }
-  else
-    puts ' ' + banner(78, 'no libs to load')
+  unless Pathname.new(Dir.pwd).realpath == Pathname.new(ENV['HOME']).realpath
+    load ".irbrc" if File.file? ".irbrc" and d != h
+    files = `find -name '*.rb' -type f -print0`.split("\000").select do |s|
+      %r|^./lib/|.match(s)
+    end
+    unless files.length.zero?
+      files.collect do |f|
+        load(f)
+        display_pathname(72, 2, Pathname.new(f).realpath.to_s)
+      end.unshift(' ' + banner(78, 'loaded')).each{|s| puts s }
+    else
+      puts ' ' + banner(78, 'no libs to load')
+    end
   end
   nil
 end
