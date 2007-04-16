@@ -11,9 +11,11 @@ augroup ruby
   au! BufRead,BufNewFile *.rake  setfiletype ruby
 augroup END
 
-" those little /tmp files generated when I'm using vim
-" as a line editor should definitely be colored in.
-augroup sh
+augroup filetypedetect
+  " those little /tmp files generated when I'm using vim
+  " as a line editor should definitely be colored in.
   au! BufRead,BufNewFile */bash-fc-* setfiletype sh
+  " it's important that .hrl files should be colored as .erl files
+  au! BufRead,BufNewFile *.hrl setfiletype erlang
 augroup END
 

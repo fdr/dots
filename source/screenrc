@@ -13,6 +13,9 @@ logfile "screenlog.%t.%1`"
 bindkey -t "^asudo" screen sudo -s
 bindkey -t "^airb" screen irb
 bindkey -t "^avim" screen vim
+bindkey -t "^aerl" screen erl
+bindkey -t "^ajsn" screen ssh jsn@j-s-n.org
+
 
 #               |1     | |2                  | |3     |i
 caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
