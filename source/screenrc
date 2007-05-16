@@ -12,8 +12,11 @@ logfile "screenlog.%t.%1`"
 
 bindkey -t "^asudo" screen sudo -s
 bindkey -t "^airb" screen irb
+bindkey -t "^airssi" screen irssi
 bindkey -t "^avim" screen vim
 bindkey -t "^aerl" screen erl
+bindkey -t "^anfoo" screen erl -sname foo
+bindkey -t "^anbar" screen erl -sname bar
 bindkey -t "^ajsn" screen ssh jsn@j-s-n.org
 
 
