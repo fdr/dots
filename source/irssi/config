@@ -77,7 +77,8 @@ channels = (
   { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; },
   { name = "#rubyonrails"; chatnet = "FreeNode"; },
   { name = "#yitan"; chatnet = "FreeNode"; },
-  { name = "#svn"; chatnet = "FreeNode"; }
+  { name = "#svn"; chatnet = "FreeNode"; },
+  { name = "#erlang"; chatnet = "freenode"; }
 );
 
 aliases = {
