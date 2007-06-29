@@ -74,7 +74,10 @@ channels = (
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
   { name = "#gentoo"; chatnet = "FreeNode"; },
   { name = "#rubybyol"; chatnet = "FreeNode"; },
-  { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "yes"; },
+  {
+    name = "#ruby-lang";
+    chatnet = "FreeNode";
+  },
   { name = "#rubyonrails"; chatnet = "FreeNode"; },
   { name = "#yitan"; chatnet = "FreeNode"; },
   { name = "#svn"; chatnet = "FreeNode"; },

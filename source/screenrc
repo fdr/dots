@@ -14,13 +14,11 @@ bindkey -t "^asudo" screen sudo -s
 bindkey -t "^airb" screen irb
 bindkey -t "^airssi" screen irssi
 bindkey -t "^avim" screen vim
-bindkey -t "^aerl" screen erl
-bindkey -t "^anfoo" screen erl -sname foo
-bindkey -t "^anbar" screen erl -sname bar
 bindkey -t "^ajsn" screen ssh jsn@j-s-n.org
+bindkey -t "^aemacs" screen emacs
+bindkey -t "^aghci" screen ghci -fglasgow-exts -H32m
 
-
-#               |1     | |2                  | |3     |i
+#               |1     | |2                  | |3     |
 caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
 #
 #  |1|  blocks in the left margin with white and switches to plain style
@@ -38,4 +36,5 @@ caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
 #       with |1| serves to center the text
 #         %{+s}   turn standout style back on
 #         %=      fill
+#
 
