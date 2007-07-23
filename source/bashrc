@@ -51,6 +51,7 @@ else
 fi
 
 load_file_if_exists $bc
+[[ `pwd` != $HOME  ]] && load_file_if_exists ./.bashrc
 load_file_if_exists /etc/profile
 
 
