@@ -4,6 +4,15 @@
 # taken me years to understand.
 #
 
+pskill()
+{
+        local pid
+
+        pid=$(ps -ax | grep $1 | grep -v grep | awk '{ print $1 }')
+        echo -n "killing $1 (process $pid)..."
+        kill -9 $pid
+}
+
 load_file_if_exists()
 {
   if [ -f "$1" ]
@@ -51,7 +60,7 @@ else
 fi
 
 load_file_if_exists $bc
-[[ `pwd` != $HOME  ]] && load_file_if_exists ./.bashrc
+[[ `pwd` -ef $HOME  ]] || load_file_if_exists ./.bashrc
 load_file_if_exists /etc/profile
 
 
@@ -64,15 +73,6 @@ alias t='tail -n 50'
 alias g='egrep --color'
 alias x='exit'
 alias ri='ri -f ansi'
-
-pskill()
-{
-        local pid
-
-        pid=$(ps -ax | grep $1 | grep -v grep | awk '{ print $1 }')
-        echo -n "killing $1 (process $pid)..."
-        kill -9 $pid
-}
 
 
 umask 002
