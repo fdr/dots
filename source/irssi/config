@@ -19,6 +19,11 @@ servers = (
     chatnet = "FreeNode";
     port = "8001";
   },
+  { 
+    address = "irc.oftc.net";
+    chatnet = "OFTC";
+    port = "6667";
+  },
 
 );
 
@@ -66,6 +71,12 @@ chatnets = {
     username = "jsnx";
     nick = "jsnx";
     autosendcmd = "/^msg nickserv identify breadbeard; wait -FreeNode 2000";
+  };
+  OFTC = {
+    type = "IRC";
+    username = "jsnx";
+    nick = "jsnx";
+    autosendcmd = "/^msg nickserv identify breadbeard jsnx; wait -OFTC 2000";
   };
 };
 
