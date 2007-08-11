@@ -89,7 +89,7 @@ channels = (
   { name = "#rubyonrails"; chatnet = "FreeNode"; },
   { name = "#yitan"; chatnet = "FreeNode"; },
   { name = "#svn"; chatnet = "FreeNode"; },
-  { name = "#erlang"; chatnet = "freenode"; },
+  { name = "#erlang"; chatnet = "FreeNode"; },
   { name = "#haskell"; chatnet = "FreeNode"; }
 );
 
