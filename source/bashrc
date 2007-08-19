@@ -79,12 +79,11 @@ umask 002
 set -o vi
 
 
-#######################################################################
+## begin prompt of power ##############################################
 # I used to have the prompt set up as a bunch of functions; but that
 # didn't work very well with sh. Now, I have mastered the various
 # levels of evaluation and quoting of the shell and can confidently
 # write hideous macros!
-## begin prompt of power
 
 HIGH="\[\e[01;31m\]"
 NORM="\[\e[00;0m\]"
@@ -93,7 +92,7 @@ d="pwd | awk '{ printf \"%-64s\", \$1 }'"
 t="date +%R"
 h="history 1 | xargs echo '' | awk '{ printf \"%3d\", \$1 + 1 }'"
 
-prompt="${HIGH} \`${d}\`  \`${t}\`  \`${h}\` ;\n  ${NORM}"
+prompt="${HIGH}#  \`${d}\`  \`${t}\`  \`${h}\`\n  ${NORM}"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
@@ -105,10 +104,9 @@ fi
 
 export  PROMPT_COMMAND="export PS1=\"${prepend}${prompt}\""
 
-export PS2='  '
+export  PS2='  '
 
-## end prompt of power
-#######################################################################
+## end prompt of power ################################################
 
 
 set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
