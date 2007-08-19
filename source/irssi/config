@@ -19,11 +19,7 @@ servers = (
     chatnet = "FreeNode";
     port = "8001";
   },
-  { 
-    address = "irc.oftc.net";
-    chatnet = "OFTC";
-    port = "6667";
-  },
+  { address = "irc.oftc.net"; chatnet = "OFTC"; port = "6667"; },
 
 );
 
@@ -90,7 +86,9 @@ channels = (
   { name = "#yitan"; chatnet = "FreeNode"; },
   { name = "#svn"; chatnet = "FreeNode"; },
   { name = "#erlang"; chatnet = "FreeNode"; },
-  { name = "#haskell"; chatnet = "FreeNode"; }
+  { name = "#haskell"; chatnet = "FreeNode"; },
+  { name = "#xen"; chatnet = "OFTC"; },
+  { name = "##xen"; chatnet = "FreeNode"; }
 );
 
 aliases = {

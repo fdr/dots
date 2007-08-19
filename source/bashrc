@@ -91,8 +91,9 @@ NORM="\[\e[00;0m\]"
 d="pwd | awk '{ printf \"%-64s\", \$1 }'"
 t="date +%R"
 h="history 1 | xargs echo '' | awk '{ printf \"%3d\", \$1 + 1 }'"
+c=""
 
-prompt="${HIGH}#  \`${d}\`  \`${t}\`  \`${h}\`\n  ${NORM}"
+prompt="${HIGH} # \`${d}\`  \`${t}\`  \`${h}\`\n  ${NORM}"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
