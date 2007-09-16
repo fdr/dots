@@ -18,6 +18,21 @@ syntax on
 set hlsearch
 " end freebsd needs these
 
+runtime macros/justify.vim
+
+function! MKDHeader(char)
+  s/\v\s+/ /g
+  right 78
+  yank
+  put
+  s/\v(\w)(\s+)(\w)/\1x\3/g
+  s/\w/\=a:char/g
+endfunction
+
+nnoremap just :call Justify(78)<CR>
+
+nnoremap mkdh :silent! call MKDHeader("=")<CR>
+nnoremap mkdhh :silent! call MKDHeader("-")<CR>
 
 filetype plugin indent on
 
@@ -33,4 +48,6 @@ endif
 augroup mkd
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
 augroup END
+
+
 
