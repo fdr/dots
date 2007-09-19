@@ -61,7 +61,6 @@ fi
 
 load_file_if_exists $bc
 [[ `pwd` -ef $HOME  ]] || load_file_if_exists ./.bashrc
-load_file_if_exists /etc/profile
 
 
 alias go='pushd'
