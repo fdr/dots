@@ -21,18 +21,22 @@ set hlsearch
 runtime macros/justify.vim
 
 function! MKDHeader(char)
-  s/\v\s+/ /g
-  right 78
-  yank
-  put
-  s/\v(\w)(\s+)(\w)/\1x\3/g
-  s/\w/\=a:char/g
+ruby << RUBY
+  cb = VIM::Buffer.current
+  ln = cb.line_number
+  content = cb.line.strip
+  underline = content.gsub(/./, VIM.evaluate("a:char")).rjust(78)
+  cb[ln] = content.rjust(78)
+  unless cb[ln + 1] == underline 
+    cb.append(ln, underline)
+  end
+RUBY
 endfunction
 
 nnoremap just :call Justify(78)<CR>
 
-nnoremap mkdh :silent! call MKDHeader("=")<CR>
-nnoremap mkdhh :silent! call MKDHeader("-")<CR>
+nnoremap mkdh1 :silent! call MKDHeader("=")<CR>
+nnoremap mkdh2 :silent! call MKDHeader("-")<CR>
 
 filetype plugin indent on
 
