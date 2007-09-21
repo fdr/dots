@@ -264,6 +264,7 @@ settings = {
     autocreate_split_windows = "yes";
     autolog = "yes";
     term_charset = "UTF-8";
+    autolog_path = "= ~/.irclogs/%Y/%m/%d/$tag/$0";
   };
 };
 logs = { };
