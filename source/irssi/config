@@ -88,7 +88,8 @@ channels = (
   { name = "#erlang"; chatnet = "FreeNode"; },
   { name = "#haskell"; chatnet = "FreeNode"; },
   { name = "#xen"; chatnet = "OFTC"; },
-  { name = "##xen"; chatnet = "FreeNode"; }
+  { name = "##xen"; chatnet = "FreeNode"; },
+  { name = "#cvn-wp-en"; chatnet = "FreeNode"; }
 );
 
 aliases = {
