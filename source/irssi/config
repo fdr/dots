@@ -89,7 +89,8 @@ channels = (
   { name = "#haskell"; chatnet = "FreeNode"; },
   { name = "#xen"; chatnet = "OFTC"; },
   { name = "##xen"; chatnet = "FreeNode"; },
-  { name = "#cvn-wp-en"; chatnet = "FreeNode"; }
+  { name = "#cvn-wp-en"; chatnet = "FreeNode"; },
+  { name = "#linux"; chatnet = "FreeNode"; }
 );
 
 aliases = {
