@@ -17,6 +17,7 @@ bindkey -t "^avim" screen vim
 bindkey -t "^ajsn" screen ssh jsn@j-s-n.org
 bindkey -t "^aemacs" screen emacs
 bindkey -t "^aghci" screen ghci -fglasgow-exts -H32m
+bindkey -t "^apy" screen python
 
 #               |1     | |2                  | |3     |
 caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
