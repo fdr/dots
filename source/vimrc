@@ -12,11 +12,11 @@ set shiftwidth=2
 set tabstop=2
 set expandtab
 
-" begin freebsd needs these
+" begin freebsd needs
 set backspace=indent,eol,start
 syntax on
 set hlsearch
-" end freebsd needs these
+" end freebsd needs
 
 runtime macros/justify.vim
 
@@ -41,6 +41,7 @@ nnoremap mkdh2 :silent! call MKDHeader("-")<CR>
 filetype plugin indent on
 
 autocmd FileType text setlocal textwidth=64 wrap
+autocmd FileType mkd setlocal textwidth=78 wrap
 
 if has("autocmd") && exists("+omnifunc")
 	autocmd Filetype *
@@ -50,6 +51,7 @@ if has("autocmd") && exists("+omnifunc")
 endif
 
 au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
+au FileType python setlocal tabstop=4 shiftwidth=4 expandtab
 
 augroup mkd
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
