@@ -270,6 +270,9 @@ settings = {
     autolog_path = "~/.irclogs/%Y/%m/%d/$tag/$0";
   };
   "irc/dcc" = { dcc_download_path = "~/Desktop"; };
-  "irc/core" = { ctcp_version_reply = "OpenVMS VAX V7.2"; };
+  "irc/core" = {
+    ctcp_version_reply = "OpenVMS VAX V7.2";
+    ctcp_userinfo_reply = "OpenVMS VAX V7.2";
+  };
 };
 logs = { };
