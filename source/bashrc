@@ -1,77 +1,45 @@
 #!/usr/bin/env bash
-#
-# My .bashrc is full of functions and macros -- the macros especially have
-# taken me years to understand.
-#
+##
+##  So many years of fooling around...
+##
+##
 
-pskill()
-{
-        local pid
 
-        pid=$(ps -ax | grep $1 | grep -v grep | awk '{ print $1 }')
-        echo -n "killing $1 (process $pid)..."
-        kill -9 $pid
-}
+[ -e $f ] && rm -rf $HISTFILE
 
-load_file_if_exists()
-{
-  if [ -f "$1" ]
-  then
-    source "$1"
-  fi
-}
-
-remove_if_exists()
-{
-  if [ -e "$1" ]
-  then
-    rm -rf "$1"
-  fi
-}
-
-set_1_to_2_unless_4_fails_then_3()
-{
-  foo=`${4}`
-  if [ $? -eq 0 ]
-  then
-    eval "export ${1}=${2}"
-  else
-    eval "export ${1}=${3}"
-  fi
-}
-
-remove_if_exists  $HISTFILE
 
 bc="bash_completion"
-if [[ `uname` = 'FreeBSD' ]]
-then
-  bc="/usr/local/etc/${bc}"
-  alias l='ls -G'
-  alias ll='ls -GlA'
-elif [[ `uname` = 'Linux' ]]
+if [[ `uname` = 'Linux' ]]
 then
   bc="/etc/${bc}"
   alias l='ls --color'
   alias ll='ls -lA --color'
+elif [[ `uname` = 'FreeBSD' ]]
+then
+  bc="/usr/local/etc/${bc}"
+  alias l='ls -G'
+  alias ll='ls -GlA'
 else
   bc="/etc/${bc}"
   alias l='ls'
   alias ll='ls -lA'
 fi
 
-load_file_if_exists $bc
-[[ `pwd` -ef $HOME  ]] || load_file_if_exists ./.bashrc
+for f in $bc /etc/profile
+do
+  [ -f $f ] && source $f
+done
 
 
-alias go='pushd'
-alias b='popd'
-alias h='history'
-alias r='rm -r'
-alias c='clear'
-alias t='tail -n 50'
-alias g='egrep --color'
-alias x='exit'
-alias ri='ri -f ansi'
+alias   go='pushd'
+alias   b='popd'
+alias   h='history'
+alias   r='rm -r'
+alias   c='clear'
+alias   t='tail -n 50'
+alias   g='egrep --color'
+alias   x='exit'
+alias   ri='ri -f ansi'
 
 
 umask 002
@@ -84,15 +52,20 @@ set -o vi
 # levels of evaluation and quoting of the shell and can confidently
 # write hideous macros!
 
-HIGH="\[\e[01;31m\]"
-NORM="\[\e[00;0m\]"
+N="\[\e[01;32m\]"
+W="\[\e[01;33m\]"
+C="\[\e[01;34m\]"
+F="\[\e[01;30m\]"
+T="\[\e[00;00m\]"
 
-d="pwd | awk '{ printf \"%-64s\", \$1 }'"
-t="date +%R"
-h="history 1 | xargs echo '' | awk '{ printf \"%3d\", \$1 + 1 }'"
-c="[ $USER = root ] && echo '##' || echo ' #'"
+d="pwd | awk '{ printf \" %64s\", \$1 }'"
+m="date +%M | xargs echo -n"
+h="date +%H | xargs echo -n"
+n="history 1 | xargs echo '' | awk '{ printf \"%02d  \", \$1 + 1 }'"
+w="[ $USER = root ] && echo -n '${W}' || echo -n '${F}'"
+b="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
 
-prompt="${HIGH}\`${c}\` \`${d}\`  \`${t}\`  \`${h}\`\n  ${NORM}"
+prompt="${C} ## \`${w};${b}\`${N}\`${n};${h};${w}\`:${N}\`${m};${d}\`\n  ${T}"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
@@ -102,18 +75,18 @@ then
   prepend="${xterm_title}"
 fi
 
-export  PROMPT_COMMAND="export PS1=\"${prepend}${prompt}\""
-
+#export  PROMPT_COMMAND="export PS1=\"${prepend}${prompt}\""
+export  PS1="${prepend}${prompt}"
 export  PS2='  '
 
 ## end prompt of power ################################################
 
 
-set_1_to_2_unless_4_fails_then_3 "EDITOR" "vim" "vi" "which vim"
-
+export  EDITOR=vim
 export  TEXEDIT="${EDITOR} +%d %s"
 export  RUBYOPT="${RUBYOPT} -Ku"
-export  BROWSER="firefox"
+export  BROWSER=firefox
 export  HISTIGNORE="&:h:exit"
 export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export  TZ=/usr/share/zoneinfo/America/Los_Angeles
+

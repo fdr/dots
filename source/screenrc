@@ -19,26 +19,24 @@ bindkey -t "^aemacs" screen emacs
 bindkey -t "^aghci" screen ghci -fglasgow-exts -H32m
 bindkey -t "^apy" screen python
 
-#caption always "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
+caption always "%{+b kg} %=%{-s} %-w%{.K}%n %t%{.g}%+w %{+s} %="
+#               |C     | |L    | |I                  | |R     |
 #
-#               |C  ||L     | |I                  | |R     |
-caption always "%{kg} %=%{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
+#  |C|  makes things bold and sets the colors -- black (k) and green (g)
 #
-#  |C|  sets the colors -- black background and green text
-#
-#  |I|  lists all windows, with the current window in bold
+#  |I|  lists all windows, with the current window a different color 
 #       a big mess, which has to be all run together to get the spacing right
 #         %-w     all windows up to the current window
 #         %+w     all windows following the current window
-#         %n %t   construct a listing for the current window
-#         %{+b}   bold on
-#         %{-b}   bold off
+#         %n %t   a listing for the current window
+#         %{.K}   foreground to gray, background unchanged
+#         %{.g}   foreground to green, background unchanged
 #
 #  |L|  blocks in the left margin
 #       note the initial space, to make sure the colors take
 #       with |3| serves to center the text
 #         %=      fill
-#         %{-s}   turn off standout style
+#         %{-s}   turn off reverse video
 #
 #  |R|  blocks in the right margin
 #       note the space, to make sure the style change takes
