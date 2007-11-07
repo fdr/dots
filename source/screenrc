@@ -2,7 +2,7 @@ nethack on
 vbell on
 defutf8 on
 
-defscrollback 2560
+defscrollback 4096
 backtick 1 1 1 date -u +%Y-%m-%dT%TZ
 
 logtstamp on
@@ -19,21 +19,29 @@ bindkey -t "^aemacs" screen emacs
 bindkey -t "^aghci" screen ghci -fglasgow-exts -H32m
 bindkey -t "^apy" screen python
 
-#               |1     | |2                  | |3     |
-caption always "%= %{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
+#caption always "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
 #
-#  |1|  blocks in the left margin with white and switches to plain style
+#               |C  ||L     | |I                  | |R     |
+caption always "%{kg} %=%{-s} %-w%{+b}%n %t%{-b}%+w %{+s} %="
+#
+#  |C|  sets the colors -- black background and green text
+#
+#  |I|  lists all windows, with the current window in bold
+#       a big mess, which has to be all run together to get the spacing right
+#         %-w     all windows up to the current window
+#         %+w     all windows following the current window
+#         %n %t   construct a listing for the current window
+#         %{+b}   bold on
+#         %{-b}   bold off
+#
+#  |L|  blocks in the left margin
+#       note the initial space, to make sure the colors take
 #       with |3| serves to center the text
 #         %=      fill
 #         %{-s}   turn off standout style
 #
-#  |2|  a big mess, which has to be all run together to get the spacing right
-#       lists all windows, with the current window in bold
-#         %-w     all windows up to the current window
-#         %+w     all windows following the current window
-#         %n %t   construct a listing for the current window
-#
-#  |3|  blocks in the right margin
+#  |R|  blocks in the right margin
+#       note the space, to make sure the style change takes
 #       with |1| serves to center the text
 #         %{+s}   turn standout style back on
 #         %=      fill
