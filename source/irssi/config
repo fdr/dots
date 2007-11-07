@@ -262,6 +262,8 @@ settings = {
     timestamp_format = "%H:%M:%S";
     nick = "jsn";
     recode_transliterate = "no";
+    log_close_string = "--- Log closed %FT%H:%M:%S %z";
+    log_open_string = "--- Log opened %FT%H:%M:%S %z";
   };
   "fe-text" = { autostick_split_windows = "no"; };
   "fe-common/core" = {
@@ -269,6 +271,7 @@ settings = {
     autolog = "yes";
     term_charset = "UTF-8";
     autolog_path = "~/.irclogs/%Y/%m/%d/$tag/$0";
+    window_history = "yes";
   };
   "irc/dcc" = { dcc_download_path = "~/Desktop"; };
   "irc/core" = {
@@ -277,3 +280,4 @@ settings = {
   };
 };
 logs = { };
+ignores = ( { mask = "saltydav"; level = "ALL"; } );
