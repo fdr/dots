@@ -265,7 +265,7 @@ settings = {
     log_close_string = "--- Log closed %FT%H:%M:%S %z";
     log_open_string = "--- Log opened %FT%H:%M:%S %z";
   };
-  "fe-text" = { autostick_split_windows = "no"; };
+  "fe-text" = { autostick_split_windows = "no"; actlist_sort = "refnum"; };
   "fe-common/core" = {
     autocreate_split_windows = "yes";
     autolog = "yes";
@@ -280,4 +280,7 @@ settings = {
   };
 };
 logs = { };
-ignores = ( { mask = "saltydav"; level = "ALL"; } );
+ignores = (
+  { mask = "saltydav"; level = "ALL"; },
+  { mask = "fagubuntu"; level = "ALL"; }
+);
