@@ -18,7 +18,6 @@ syntax on
 set hlsearch
 " end freebsd needs
 
-runtime macros/justify.vim
 
 function! MKDHeader(char)
 ruby << RUBY
@@ -32,11 +31,34 @@ ruby << RUBY
   end
 RUBY
 endfunction
-
-nnoremap just :call Justify(78)<CR>
-
 nnoremap mkdh1 :silent! call MKDHeader("=")<CR>
 nnoremap mkdh2 :silent! call MKDHeader("-")<CR>
+
+runtime macros/justify.vim
+nnoremap just :call Justify(78)<CR>
+
+function! HaskellAlign()
+ruby << RUBY
+  l_bound = 30
+  l_bound -= 5
+  r_bound = 50 
+  r_bound -= 2
+  cb = VIM::Buffer.current
+  pat = / (<-|=|::) /
+  ln = cb.line_number
+  content = cb.line
+  m = pat.match(content)
+  if m
+    front, back = m.pre_match.gsub(/[[:space:]]+$/, ''), m.post_match.strip
+    unless (front.length > l_bound) or (back.length > r_bound)
+      formatted = front.ljust(l_bound) + m[0].rjust(4).ljust(5) + back
+      cb[ln] = formatted
+    end
+  end
+RUBY
+endfunction
+nnoremap hal :% call HaskellAlign()<CR>
+
 
 filetype plugin indent on
 
