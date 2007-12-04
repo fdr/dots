@@ -264,7 +264,7 @@ settings = {
     recode_transliterate = "no";
     log_close_string = "--- Log closed %FT%H:%M:%S %z";
     log_open_string = "--- Log opened %FT%H:%M:%S %z";
-    quit_message = "cobra-la-la-la-la-la";
+    quit_message = "cobra la la la la la";
   };
   "fe-text" = { autostick_split_windows = "no"; actlist_sort = "refnum"; };
   "fe-common/core" = {
