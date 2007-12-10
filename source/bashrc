@@ -58,10 +58,10 @@ C="\[\e[01;34m\]"
 F="\[\e[01;30m\]"
 T="\[\e[00;00m\]"
 
-d="pwd | awk '{ printf \" %64s\", \$1 }'"
+d="pwd | awk '{ printf \" %64.64s\", \$1 }'"
 m="date +%M | xargs echo -n"
 h="date +%H | xargs echo -n"
-n="history 1 | xargs echo '' | awk '{ printf \"%02d  \", \$1 + 1 }'"
+n="history 1 | xargs echo '' | awk '{ printf \"%03.3d \", \$1 + 1 }'"
 w="[ $USER = root ] && echo -n '${W}' || echo -n '${F}'"
 b="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
 
