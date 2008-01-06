@@ -52,20 +52,21 @@ set -o vi
 # levels of evaluation and quoting of the shell and can confidently
 # write hideous macros!
 
-N="\[\e[01;32m\]"
-W="\[\e[01;33m\]"
-C="\[\e[01;34m\]"
-F="\[\e[01;30m\]"
-T="\[\e[00;00m\]"
+DARK="\[\e[01;34m\]"
+NORM="\[\e[01;32m\]"
+FADE="\[\e[01;30m\]"
+REST="\[\e[00;00m\]"
+HIGH="\[\e[01;33m\]"
 
-d="pwd | awk '{ printf \" %64.64s\", \$1 }'"
-m="date +%M | xargs echo -n"
-h="date +%H | xargs echo -n"
-n="history 1 | xargs echo '' | awk '{ printf \"%03.3d \", \$1 + 1 }'"
-w="[ $USER = root ] && echo -n '${W}' || echo -n '${F}'"
-b="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
+dir="pwd -P | awk '{ printf \"%-65.65s\", \$1 }'"
+sub="sed -r 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
+t="date +%H:%M"
+hist="history 1 | xargs echo '' | awk '{ printf \"%03.3d\", \$1 + 1 }'"
+warn="[ $USER = root ] && echo -n '$HIGH' || echo -n '$FADE'"
+bang="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
 
-prompt="${C} ## \`${w};${b}\`${N}\`${n};${h};${w}\`:${N}\`${m};${d}\`\n  ${T}"
+prompt=" $DARK: \`$dir | $sub\` \`$warn;$bang;\`$NORM\`$hist\` \`$t | $sub\`
+ $DARK:\`$warn\`; $REST"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
