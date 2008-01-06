@@ -1,5 +1,11 @@
 
-:set -fglasgow-exts -O
+:set -XOverlappingInstances
+:set -XUnicodeSyntax
+:set -XArrows
+:set -Wall
+:set -fno-warn-name-shadowing
+:set -fwarn-unused-imports
+:set -fglasgow-exts
 :set +t
 
 
