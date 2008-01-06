@@ -79,20 +79,21 @@ chatnets = {
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
-  { name = "#gentoo"; chatnet = "FreeNode"; },
-  { name = "#rubybyol"; chatnet = "FreeNode"; },
-  { name = "#ruby-lang"; chatnet = "FreeNode"; },
-  { name = "#rubyonrails"; chatnet = "FreeNode"; },
-  { name = "#yitan"; chatnet = "FreeNode"; },
-  { name = "#svn"; chatnet = "FreeNode"; },
-  { name = "#erlang"; chatnet = "FreeNode"; },
-  { name = "#haskell"; chatnet = "FreeNode"; },
-  { name = "#xen"; chatnet = "OFTC"; },
-  { name = "##xen"; chatnet = "FreeNode"; },
-  { name = "#cvn-wp-en"; chatnet = "FreeNode"; },
-  { name = "#linux"; chatnet = "FreeNode"; },
-  { name = "#python"; chatnet = "FreeNode"; },
-  { name = "#vserver"; chatnet = "oftc"; }
+  { name = "#gentoo"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#rubybyol"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#ruby-lang"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#rubyonrails"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#yitan"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#svn"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#erlang"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#xen"; chatnet = "OFTC"; autojoin = "No"; },
+  { name = "##xen"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#cvn-wp-en"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#linux"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#python"; chatnet = "FreeNode"; autojoin = "No"; },
+  { name = "#vserver"; chatnet = "oftc"; autojoin = "No"; },
+  { name = "#haskell"; chatnet = "FreeNode"; autojoin = "Yes"; },
+  { name = "#haskell-blah"; chatnet = "FreeNode"; autojoin = "Yes"; }
 );
 
 aliases = {
