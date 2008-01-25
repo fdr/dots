@@ -23,6 +23,9 @@ augroup filetypedetect
   au! BufRead,BufNewFile */bash-fc-* setfiletype sh
   " it's important that .hrl files should be colored as .erl files
   au! BufRead,BufNewFile *.hrl setfiletype erlang
+  " i made up yet another BNF 
+  au! BufRead,BufNewFile *.yabnf setfiletype yabnf
+  au! BufRead,BufNewFile *.bnf setfiletype yabnf
   " xen's .xm files are python
   au! BufRead,BufNewFile *.xm setfiletype python
 augroup END
