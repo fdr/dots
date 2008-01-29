@@ -9,21 +9,21 @@
 
 
 bc="bash_completion"
-if [[ `uname` = 'Linux' ]]
-then
-  bc="/etc/${bc}"
-  alias l='ls --color'
-  alias ll='ls -lA --color'
-elif [[ `uname` = 'FreeBSD' ]]
-then
-  bc="/usr/local/etc/${bc}"
-  alias l='ls -G'
-  alias ll='ls -GlA'
-else
-  bc="/etc/${bc}"
-  alias l='ls'
-  alias ll='ls -lA'
-fi
+
+case `uname` in
+  FreeBSD|Darwin)
+    regsed="sed -E"
+    bc="/usr/local/etc/${bc}"
+    alias l='ls -G'
+    alias ll='ls -GlA'
+    ;;
+  Linux)
+    regsed="sed -r"
+    bc="/etc/${bc}"
+    alias l='ls --color'
+    alias ll='ls -lA --color'
+    ;;
+esac    
 
 for f in $bc /etc/profile
 do
@@ -59,7 +59,7 @@ REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
 
 dir="pwd -P | awk '{ printf \"%-65.65s\", \$1 }'"
-sub="sed -r 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
+sub="$regsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
 t="date +%H:%M"
 hist="history 1 | xargs echo '' | awk '{ printf \"%03.3d\", \$1 + 1 }'"
 warn="[ $USER = root ] && echo -n '$HIGH' || echo -n '$FADE'"
