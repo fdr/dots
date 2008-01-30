@@ -70,8 +70,8 @@ syn match  htmlH1       /^.\+\n=\+$/
 syn match  htmlH2       /^.\+\n-\+$/
 
 "highlighting for Markdown groups
-HtmlHiLink mkdString	    String
-HtmlHiLink mkdCode          String
+HtmlHiLink mkdString	      String
+HtmlHiLink mkdCode          Comment
 HtmlHiLink mkdBlockquote    Comment
 HtmlHiLink mkdLineContinue  Comment
 HtmlHiLink mkdListItem      Identifier

@@ -19,24 +19,25 @@ syntax on
 set hlsearch
 " end freebsd needs
 
-
-function! MKDHeader(char)
-ruby << RUBY
-  cb = VIM::Buffer.current
-  ln = cb.line_number
-  content = cb.line.strip
-  underline = content.gsub(/./, VIM.evaluate("a:char")).rjust(78)
-  cb[ln] = content.rjust(78)
-  unless cb[ln + 1] == underline 
-    cb.append(ln, underline)
-  end
-RUBY
+function! Prepend(string)
+python << PYTHON
+import vim
+s = vim.eval("a:string")
+cb = vim.current.buffer
+cw = vim.current.window
+(row, col) = cw.cursor
+width = int(vim.eval("&tw")) - 1 - len(s)
+matter = cb[row - 1].strip()
+if not len(matter) is (width + 1 + len(s)):
+  cb[row - 1] = " " + s + matter.rjust(width)
+  cw.cursor = (row + 1, 1)
+PYTHON
 endfunction
-nnoremap mkdh1 :silent! call MKDHeader("=")<CR>
-nnoremap mkdh2 :silent! call MKDHeader("-")<CR>
+nnoremap mkdh1 :silent! call Prepend("#")<CR>
+nnoremap mkdh2 :silent! call Prepend("##")<CR>
 
 runtime macros/justify.vim
-nnoremap just :call Justify(78)<CR>
+nnoremap just :call Justify(&tw)<CR>
 
 function! HaskellAlign()
 ruby << RUBY
@@ -45,6 +46,7 @@ ruby << RUBY
   r_bound = 50 
   r_bound -= 2
   cb = VIM::Buffer.current
+  cw = VIM::Window.current
   pat = / (<-|=|::) /
   ln = cb.line_number
   content = cb.line
@@ -59,7 +61,14 @@ ruby << RUBY
   end
 RUBY
 endfunction
-nnoremap hal :% call HaskellAlign()<CR>
+function! HaskellAlignAll()
+  let a = line(".")
+  let b = col(".")
+  % call HaskellAlign()
+  if cursor(a, b)
+  endif
+endfunction
+nnoremap hal :call HaskellAlignAll() <CR>
 
 
 filetype plugin indent on
