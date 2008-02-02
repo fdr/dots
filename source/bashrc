@@ -10,18 +10,32 @@
 
 bc="bash_completion"
 
+function bsd-aliases {
+  regsed="sed -E"
+  bc="/usr/local/etc/${bc}"
+  alias l='ls -G'
+  alias ll='ls -GlA'
+}
+
+function gnu-aliases {
+  regsed="sed -r"
+  bc="/etc/${bc}"
+  alias l='ls --color'
+  alias ll='ls -lA --color'
+}
+
 case `uname` in
-  FreeBSD|Darwin)
-    regsed="sed -E"
-    bc="/usr/local/etc/${bc}"
-    alias l='ls -G'
-    alias ll='ls -GlA'
+  FreeBSD)
+    bsd-aliases
+    umask 002
+    ;;
+  Darwin)
+    bsd-aliases
+    umask 022  ## OS X does not use BSD groups :(
     ;;
   Linux)
-    regsed="sed -r"
-    bc="/etc/${bc}"
-    alias l='ls --color'
-    alias ll='ls -lA --color'
+    gnu-aliases
+    umask 002
     ;;
 esac    
 
@@ -42,7 +56,6 @@ alias   x='exit'
 alias   ri='ri -f ansi'
 
 
-umask 002
 set -o vi
 
 
