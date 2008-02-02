@@ -19,22 +19,26 @@ syntax on
 set hlsearch
 " end freebsd needs
 
-function! Prepend(string)
+
+function! RHeader(char)
 python << PYTHON
 import vim
-s = vim.eval("a:string")
+import re
+c = vim.eval("a:char")
 cb = vim.current.buffer
 cw = vim.current.window
 (row, col) = cw.cursor
-width = int(vim.eval("&tw")) - 1 - len(s)
+width = int(vim.eval("&tw"))
 matter = cb[row - 1].strip()
-if not len(matter) is (width + 1 + len(s)):
-  cb[row - 1] = " " + s + matter.rjust(width)
-  cw.cursor = (row + 1, 1)
+lead_in = re.sub("^(\S)", " \g<1>", c * 2)
+cb[row - 1] = " " + lead_in + matter.rjust(width - 1 - len(lead_in))
+rn = cb.range(row, row)
+rn.append([ " " + (c * width) , "", "   " ])
+cw.cursor = (row + 3, 2)
 PYTHON
 endfunction
-nnoremap mkdh1 :silent! call Prepend("#")<CR>
-nnoremap mkdh2 :silent! call Prepend("##")<CR>
+nnoremap heading :silent! call RHeader("-")<CR>
+
 
 runtime macros/justify.vim
 nnoremap just :call Justify(&tw)<CR>
