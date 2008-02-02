@@ -20,6 +20,10 @@ set hlsearch
 " end freebsd needs
 
 
+runtime macros/justify.vim
+nnoremap just :call Justify(&tw)<CR>
+
+
 function! RHeader(char)
 python << PYTHON
 import vim
@@ -37,33 +41,35 @@ rn.append([ " " + (c * width) , "", "   " ])
 cw.cursor = (row + 3, 2)
 PYTHON
 endfunction
-nnoremap heading :silent! call RHeader("-")<CR>
+nnoremap hd :silent! call RHeader("-")<CR>
+nnoremap tb :silent! call RHeader("=")<CR>
 
-
-runtime macros/justify.vim
-nnoremap just :call Justify(&tw)<CR>
 
 function! HaskellAlign()
-ruby << RUBY
-  l_bound = 32
-  l_bound -= 5
-  r_bound = 50 
-  r_bound -= 2
-  cb = VIM::Buffer.current
-  cw = VIM::Window.current
-  pat = / (<-|=|::) /
-  ln = cb.line_number
-  content = cb.line
-  m = pat.match(content)
-  if m
-    front, back = m.pre_match.gsub(/[[:space:]]+$/, ''), m.post_match.strip
-    too_long = (front.length > l_bound) or (back.length > r_bound)
-    unless too_long or front.length.zero?
-      formatted = front.ljust(l_bound) + m[0].rjust(4).ljust(5) + back
-      cb[ln] = formatted
-    end
-  end
-RUBY
+python << PYTHON
+import vim
+import re
+cl = vim.current.line
+width = int(vim.eval("&tw"))
+if width is 78:
+    fw = 25 - 5
+    aw = 39
+elif width is 64:
+    fw = 32 - 5
+    aw = 48 - 2
+else:
+    fw = 25 - 5
+    aw = 39
+ ## The "->" match case works because the first match wins.
+m = re.compile(r" (<-|=|::|->) ").search(cl)
+if m:
+    ( fore, aft ) = ( cl[:m.start()], cl[m.end():] )
+    all_spaces = re.compile(r"^\s*$").search(fore)
+    if len(fore) <= fw and len(aft) <= aw and not all_spaces:
+        spaced_out = m.group().rjust(4).ljust(5)
+        formatted = fore.ljust(fw) + spaced_out + aft
+        vim.current.line = formatted
+PYTHON
 endfunction
 function! HaskellAlignAll()
   let a = line(".")
