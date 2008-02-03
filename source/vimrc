@@ -63,9 +63,10 @@ else:
  ## The "->" match case works because the first match wins.
 m = re.compile(r" (<-|=|::|->) ").search(cl)
 if m:
-    ( fore, aft ) = ( cl[:m.start()], cl[m.end():] )
+    fore = re.compile(r"\s+$").sub('', cl[:m.start()])
+    aft = re.compile(r"^\s+").sub('', cl[m.end():])
     all_spaces = re.compile(r"^\s*$").search(fore)
-    if len(fore) <= fw and len(aft) <= aw and not all_spaces:
+    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
         spaced_out = m.group().rjust(4).ljust(5)
         formatted = fore.ljust(fw) + spaced_out + aft
         vim.current.line = formatted
