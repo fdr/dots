@@ -94,6 +94,7 @@ channels = (
   { name = "#vserver"; chatnet = "oftc"; autojoin = "No"; },
   { name = "#haskell"; chatnet = "FreeNode"; autojoin = "Yes"; },
   { name = "#haskell-blah"; chatnet = "FreeNode"; autojoin = "Yes"; }
+  { name = "#join"; chatnet = "FreeNode"; autojoin = "Yes"; }
 );
 
 aliases = {
