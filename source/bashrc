@@ -10,14 +10,14 @@
 
 bc="bash_completion"
 
-function bsd-aliases {
+function bsd_aliases {
   regsed="sed -E"
   bc="/usr/local/etc/${bc}"
   alias l='ls -G'
   alias ll='ls -GlA'
 }
 
-function gnu-aliases {
+function gnu_aliases {
   regsed="sed -r"
   bc="/etc/${bc}"
   alias l='ls --color'
@@ -26,15 +26,15 @@ function gnu-aliases {
 
 case `uname` in
   FreeBSD)
-    bsd-aliases
+    bsd_aliases
     umask 002
     ;;
   Darwin)
-    bsd-aliases
+    bsd_aliases
     umask 022  ## OS X does not use BSD groups :(
     ;;
   Linux)
-    gnu-aliases
+    gnu_aliases
     umask 002
     ;;
 esac    
