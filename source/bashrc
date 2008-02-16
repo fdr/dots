@@ -52,7 +52,8 @@ alias   r='rm -r'
 alias   c='clear'
 alias   t='tail -n 50'
 alias   g='egrep --color'
-alias   x='exit'
+alias   :x='exit'
+alias   :q='exit'
 alias   ri='ri -f ansi'
 
 
