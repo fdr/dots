@@ -52,14 +52,14 @@ import re
 cl = vim.current.line
 width = int(vim.eval("&tw"))
 if width is 78:
-    fw = 25 - 5
-    aw = 39
-elif width is 64:
     fw = 32 - 5
     aw = 48 - 2
-else:
+elif width is 64:
     fw = 25 - 5
     aw = 39
+else:
+    fw = 32 - 5
+    aw = 48 - 2
  ## The "->" match case works because the first match wins.
 m = re.compile(r" (<-|=|::|->) ").search(cl)
 if m:
