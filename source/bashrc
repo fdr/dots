@@ -6,40 +6,59 @@
 
 
 [ -e $f ] && rm -rf $HISTFILE
+[ -f /etc/profile ] && source /etc/profile
 
 
 bc="bash_completion"
 
 function bsd_aliases {
-  regsed="sed -E"
   bc="/usr/local/etc/${bc}"
-  alias l='ls -G'
-  alias ll='ls -GlA'
 }
 
 function gnu_aliases {
-  regsed="sed -r"
   bc="/etc/${bc}"
-  alias l='ls --color'
-  alias ll='ls -lA --color'
+}
+
+function dynamic_aliases {
+  if sed --version >/dev/null 2>&1
+  then  # GNU sed
+    echo "detected GNU sed"
+    regsed="sed -r"
+  else  # BSD sed
+    echo "did not detect GNU sed -- assuming BSD sed"
+    regsed="sed -E"
+  fi
+  if ls --version >/dev/null 2>&1
+  then  # GNU ls
+    echo "detected GNU ls"
+    alias l='ls --color'
+    alias ll='ls -lA --color'
+  else  # BSD ls
+    echo "did not detect GNU ls -- assuming BSD ls"
+    alias l='ls -G'
+    alias ll='ls -GlA'
+  fi
 }
 
 case `uname` in
   FreeBSD)
     bsd_aliases
+    dynamic_aliases
     umask 002
     ;;
   Darwin)
     bsd_aliases
-    umask 022  ## OS X does not use BSD groups :(
+    dynamic_aliases
+    umask 022  ## Apple's BSD does not use BSD groups :(
     ;;
   Linux)
     gnu_aliases
+    dynamic_aliases
     umask 002
     ;;
 esac    
 
-for f in $bc /etc/profile
+for f in $bc
 do
   [ -f $f ] && source $f
 done
