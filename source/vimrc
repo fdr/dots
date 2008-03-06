@@ -84,6 +84,7 @@ nnoremap hal :call HaskellAlignAll() <CR>
 
 filetype plugin indent on
 
+autocmd FileType ldif setlocal list
 autocmd FileType text setlocal textwidth=64 wrap
 autocmd FileType mkd setlocal textwidth=78 wrap
 
