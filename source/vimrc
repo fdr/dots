@@ -99,7 +99,7 @@ if has("autocmd") && exists("+omnifunc")
 	\	endif
 endif
 
-au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
+" au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
 au FileType python setlocal tabstop=4 shiftwidth=4 expandtab
 
 augroup mkd
