@@ -22,19 +22,15 @@ function gnu_aliases {
 function dynamic_aliases {
   if sed --version >/dev/null 2>&1
   then  # GNU sed
-    echo "detected GNU sed"
     regsed="sed -r"
   else  # BSD sed
-    echo "did not detect GNU sed -- assuming BSD sed"
     regsed="sed -E"
   fi
   if ls --version >/dev/null 2>&1
   then  # GNU ls
-    echo "detected GNU ls"
     alias l='ls --color'
     alias ll='ls -lA --color'
   else  # BSD ls
-    echo "did not detect GNU ls -- assuming BSD ls"
     alias l='ls -G'
     alias ll='ls -GlA'
   fi
