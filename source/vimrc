@@ -8,6 +8,7 @@ set autowriteall
 set autoread
 set foldminlines=1
 set backupdir=~/tmp
+set directory=~/tmp
 set shiftwidth=2
 set tabstop=2
 set expandtab
