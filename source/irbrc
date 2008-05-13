@@ -28,28 +28,6 @@ IRB.conf[:AUTO_INDENT] = true
 IRB.conf[:EVAL_HISTORY] = 1000 
 IRB.conf[:SAVE_HISTORY] = 100
 
-
-# load local environment
-# this is a security risk!
-def refresh
-  # load local .irbrc files
-  unless Pathname.new(Dir.pwd).realpath == Pathname.new(ENV['HOME']).realpath
-    load ".irbrc" if File.file? ".irbrc" and d != h
-    files = `find -name '*.rb' -type f -print0`.split("\000").select do |s|
-      %r|^./lib/|.match(s)
-    end
-    unless files.length.zero?
-      files.collect do |f|
-        load(f)
-        display_pathname(72, 2, Pathname.new(f).realpath.to_s)
-      end.unshift(' ' + banner(78, 'loaded')).each{|s| puts s }
-    else
-      puts ' ' + banner(78, 'no libs to load')
-    end
-  end
-  nil
-end
-
 def display_pathname(w, i, s, r = "\n")
   indent = ' ' * (2 * i)
   if ind = s.index('/')
@@ -75,6 +53,4 @@ def ri(arg)
 end
 
 alias x exit
-
-refresh
 
