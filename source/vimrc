@@ -3,7 +3,6 @@ set autoindent
 set ruler
 set showcmd
 set incsearch
-set foldmethod=indent
 set autowriteall
 set autoread
 set foldminlines=1
@@ -14,6 +13,8 @@ set tabstop=2
 set expandtab
 set textwidth=78 wrap
 set nohlsearch
+set foldexpr=indent(v:lnum)
+set foldmethod=expr
 
 syntax on
 
