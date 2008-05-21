@@ -26,6 +26,20 @@ set backspace=indent,eol,start
 runtime macros/justify.vim
 nnoremap just :call Justify(&tw)<CR>
 
+nnoremap tj :silent! call TeXAlign()<CR> 
+function! TeXAlign()
+python << PYTHON
+import vim
+import re
+cl = vim.current.line
+width = int(vim.eval("&tw"))
+m = re.compile(r"\\([^{]+)\{[ ]*(.*[^ ])[ ]*\}").search(cl)
+if m:
+    (command, content) = m.groups()
+    spaced = content.rjust(width - 3 - len(command))
+    vim.current.line = "\\" + command + "{" + spaced + " }"
+PYTHON
+endfunction
 
 function! RHeader(char)
 python << PYTHON
