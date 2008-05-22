@@ -33,11 +33,11 @@ import vim
 import re
 cl = vim.current.line
 width = int(vim.eval("&tw"))
-m = re.compile(r"([ ]+\\[^{\[]+[{\[])[ ]*(.*[^ ])[ ]*([\]}])").search(cl)
+m = re.compile(r"\\([^{]+)\{[ ]*(.*[^ ])[ ]*\}").search(cl)
 if m:
-    (command, content, terminator) = m.groups()
-    spaced = content.rjust(width - 1 - len(command))
-    vim.current.line = command + spaced + " " + terminator
+    (command, content) = m.groups()
+    spaced = content.rjust(width - 3 - len(command))
+    vim.current.line = "\\" + command + "{" + spaced + " }"
 PYTHON
 endfunction
 
