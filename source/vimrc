@@ -105,6 +105,7 @@ filetype plugin indent on
 
 autocmd BufRead *.messagebody setlocal filetype=messagebody
 autocmd BufRead *.wiki setlocal filetype=wikipedia
+autocmd BufRead *.hsc setlocal filetype=haskell
 
 autocmd FileType ldif setlocal list
 autocmd FileType messagebody setlocal textwidth=64 wrap
