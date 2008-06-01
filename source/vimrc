@@ -103,9 +103,13 @@ nnoremap hal :call HaskellAlignAll() <CR>
 
 filetype plugin indent on
 
+autocmd BufRead *.messagebody setlocal filetype=messagebody
+autocmd BufRead *.wiki setlocal filetype=wikipedia
+
 autocmd FileType ldif setlocal list
-autocmd FileType text setlocal textwidth=64 wrap
+autocmd FileType messagebody setlocal textwidth=64 wrap
 autocmd FileType mkd setlocal textwidth=78 wrap
+
 
 " wikipedia is an annoying format
 " i need to figure out some 1337 h4x for it
