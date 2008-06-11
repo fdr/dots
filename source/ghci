@@ -1,5 +1,5 @@
-
 :set -XOverlappingInstances
+:set -XNoMonomorphismRestriction
 :set -XUnicodeSyntax
 :set -XArrows
 :set -Wall
@@ -7,5 +7,4 @@
 :set -fwarn-unused-imports
 :set -fglasgow-exts
 :set +t
-
 

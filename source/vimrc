@@ -62,7 +62,7 @@ nnoremap hd :silent! call RHeader("-")<CR>
 nnoremap tb :silent! call RHeader("=")<CR>
 
 " Delete date and such at the top of email replies.
-nnoremap ck :silent! . ! sed -E 's/([> ]*).+, ([^,]+)$/\1\2/'<CR>
+nnoremap ck :silent! . ! sed -r 's/([> ]*).+, ([^,]+)$/\1\2/'<CR>
 
 function! HaskellAlign()
 python << PYTHON
