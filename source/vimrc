@@ -54,7 +54,7 @@ matter = cb[row - 1].strip()
 lead_in = re.sub("^(\S)", " \g<1>", c * 2)
 cb[row - 1] = " " + lead_in + matter.rjust(width - 1 - len(lead_in))
 rn = cb.range(row, row)
-rn.append([ " " + (c * width) , "", "   " ])
+rn.append([ " " + (c * width) , "", "  " ])
 cw.cursor = (row + 3, 2)
 PYTHON
 endfunction
@@ -100,6 +100,39 @@ function! HaskellAlignAll()
 endfunction
 nnoremap hal :call HaskellAlignAll() <CR>
 
+function! BNFAlign()
+python << PYTHON
+import vim
+import re
+cl = vim.current.line
+width = int(vim.eval("&tw"))
+if width is 78:
+    fw = 25 - 6
+    aw = 55 - 2
+elif width is 64:
+    fw = 25 - 6
+    aw = 39
+else:
+    fw = 25 - 6
+    aw = 48 - 2
+m = re.compile(r" ::= ").search(cl)
+if m:
+    fore = re.compile(r"\s+$").sub('', cl[:m.start()])
+    aft = re.compile(r"^\s+").sub('', cl[m.end():])
+    all_spaces = re.compile(r"^\s*$").search(fore)
+    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
+        formatted = fore.ljust(fw) + ' ::=  ' + aft
+        vim.current.line = formatted
+PYTHON
+endfunction
+function! BNFAlignAll()
+  let a = line(".")
+  let b = col(".")
+  % call BNFAlign()
+  if cursor(a, b)
+  endif
+endfunction
+nnoremap bal :call BNFAlignAll() <CR>
 
 filetype plugin indent on
 
