@@ -9,7 +9,7 @@ set foldminlines=1
 set backupdir=~/tmp
 set directory=~/tmp
 set shiftwidth=2
-set tabstop=2
+set softtabstop=2
 set expandtab
 set textwidth=78 wrap
 set nohlsearch
