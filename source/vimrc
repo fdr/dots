@@ -6,8 +6,6 @@ set incsearch
 set autowriteall
 set autoread
 set foldminlines=1
-set backupdir=~/tmp
-set directory=~/tmp
 set shiftwidth=2
 set softtabstop=2
 set expandtab
@@ -15,6 +13,11 @@ set textwidth=78 wrap
 set nohlsearch
 set foldexpr=indent(v:lnum)
 set foldmethod=expr
+
+" I hate backups!
+set nobackup
+set nowritebackup
+set noswapfile
 
 syntax on
 
