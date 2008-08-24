@@ -82,8 +82,9 @@ elif width is 64:
 else:
     fw = 32 - 5
     aw = 48 - 2
- ## The "->" match case works because the first match wins.
-m = re.compile(r" (<-|=|::|->) ").search(cl)
+m = re.compile(r" (=|::) ").search(cl)
+if not m:
+  m = re.compile(r" (<-|->) ").search(cl)
 if m:
     fore = re.compile(r"\s+$").sub('', cl[:m.start()])
     aft = re.compile(r"^\s+").sub('', cl[m.end():])
