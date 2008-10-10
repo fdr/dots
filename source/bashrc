@@ -6,7 +6,7 @@
 
 
 [ -e $f ] && rm -rf $HISTFILE
-[ -f /etc/profile ] && source /etc/profile
+#[ -f /etc/profile ] && source /etc/profile
 
 
 bc="bash_completion"
@@ -40,17 +40,17 @@ case `uname` in
   FreeBSD)
     bsd_aliases
     dynamic_aliases
-    umask 002
+    umask 007
     ;;
   Darwin)
     bsd_aliases
     dynamic_aliases
-    umask 022  ## Apple's BSD does not use BSD groups :(
+    umask 007
     ;;
   Linux)
     gnu_aliases
     dynamic_aliases
-    umask 002
+    umask 007
     ;;
 esac    
 
