@@ -87,7 +87,7 @@ FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
 
-dir="pwd -P | awk '{ printf \"%-65.65s\", \$1 }'"
+dir="pwd -P | awk '{ printf \"%-65.65s\", \$0 }'"
 sub="$regsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
 t="date +%H:%M"
 hist="history 1 | xargs echo '' | awk '{ printf \"%03.3d\", \$1 + 1 }'"
