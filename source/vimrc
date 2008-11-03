@@ -25,6 +25,33 @@ syntax on
 set backspace=indent,eol,start
 " end freebsd needs
 
+function! haskell:comment_horizontal_rule(which)
+  let text = system("yes ' -' | sed '38 q' | tr -d '\n'")
+  if a:which == "begin"
+    call append(".", "{-" . s:text)
+  else
+    call append(".", s:text . " -}")
+  endif
+endfunction
+
+function! haskell:comment_block(which)
+  if a:which == "haddock"
+    call haskell:comment_horizontal_rule("end")
+    call append(".", " -  ")
+    call append(".", "{-| ")
+    normal 1j
+    normal 5|
+  else
+    call haskell:comment_horizontal_rule("end")
+    call append(".", "  ")
+    call haskell:comment_horizontal_rule("begin")
+    normal 2j
+    normal 3|
+  endif
+endfunction
+
+nnoremap hshad :silent! call haskell:comment_block("haddock")<CR>
+nnoremap hsblk :silent! call haskell:comment_block("block")<CR>
 
 runtime macros/justify.vim
 nnoremap just :call Justify(&tw)<CR>
