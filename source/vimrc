@@ -26,14 +26,12 @@ set backspace=indent,eol,start
 " end freebsd needs
 
 
-HS = {}
-
-function! HS.module() dict
+function! haskell:module()
   let s = expand('%:.:r:gs?/?.?')
   call append(".", "module " . s . " where")
 endfunction
 
-function! HS.align() dict
+function! haskell:align()
 python << PYTHON
 import vim
 import re
@@ -62,15 +60,15 @@ if m:
 PYTHON
 endfunction
 
-function! HS.align_all() dict
+function! haskell:align_all()
   let a                      =  line(".")
   let b                      =  col(".")
-  % call self.align()
+  % call haskell:align()
   if cursor(a, b)
   endif
 endfunction
 
-function! HS.comment_horizontal_rule(which)
+function! haskell:comment_horizontal_rule(which)
   let text                   =  system("yes ' -' | sed '38 q' | tr -d '\n'")
   if a:which == "begin"
     call append(".", "{-" . text)
@@ -79,31 +77,39 @@ function! HS.comment_horizontal_rule(which)
   endif
 endfunction
 
-function! HS.comment_haddock() dict
-  call self.comment_horizontal_rule("end")
+function! haskell:comment_haddock()
+  call haskell:comment_horizontal_rule("end")
   call append(".", " -  ")
   call append(".", "{-| ")
   normal 1j
   normal 5|
 endfunction
 
-function! HS.comment_block() dict
-  call self.comment_horizontal_rule("end")
+function! haskell:comment_block()
+  call haskell:comment_horizontal_rule("end")
   call append(".", "  ")
-  call self.comment_horizontal_rule("begin")
+  call haskell:comment_horizontal_rule("begin")
   normal 2j
   normal 3|
 endfunction
 
-command! -nargs=1 -complete=custom,HSCo HS :silent! call HSDo("<args>")<CR>
+command! -nargs=1 -complete=custom,haskell:complete HS
+\ :silent! call haskell:dispatch("<args>")<CR>
 
-function! HSCo(A,C,P)
+function! haskell:complete(A,C,P)
   return join(keys(g:HS), "\n")
 endfunction
  
-function! HSDo(which) dict
-  call self[a:which]()
+function! haskell:dispatch(which)
+  call g:HS[a:which]()
 endfunction
+
+let HS =
+\ { "align" : function("haskell:align_all")
+\ , "haddock comment block" : function("haskell:comment_haddock")
+\ , "module header" : function("haskell:module")
+\ , "comment block" : function("haskell:comment_block")
+\ }
 
 
 
