@@ -25,49 +25,114 @@ syntax on
 set backspace=indent,eol,start
 " end freebsd needs
 
-function! haskell:comment_horizontal_rule(which)
-  let text = system("yes ' -' | sed '38 q' | tr -d '\n'")
-  if a:which == "begin"
-    call append(".", "{-" . s:text)
-  else
-    call append(".", s:text . " -}")
+
+function! HS:module()
+  let s = expand('%:.:r:gs?/?.?')
+  call append(".", "module " . s . " where")
+endfunction
+
+function! HS:align()
+python << PYTHON
+import vim
+import re
+cl                           =  vim.current.line
+width                        =  int(vim.eval("&tw"))
+if width is 78:
+    fw                       =  32 - 5
+    aw                       =  48 - 2
+elif width is 64:
+    fw                       =  25 - 5
+    aw                       =  39
+else:
+    fw                       =  32 - 5
+    aw                       =  48 - 2
+m                            =  re.compile(r" (=|::) ").search(cl)
+if not m:
+  m                          =  re.compile(r" (<-|->) ").search(cl)
+if m:
+    fore                     =  re.compile(r"\s+$").sub('', cl[:m.start()])
+    aft                      =  re.compile(r"^\s+").sub('', cl[m.end():])
+    all_spaces               =  re.compile(r"^\s*$").search(fore)
+    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
+        spaced_out           =  m.group().rjust(4).ljust(5)
+        formatted            =  fore.ljust(fw) + spaced_out + aft
+        vim.current.line     =  formatted
+PYTHON
+endfunction
+
+function! HS:align_all()
+  let a                      =  line(".")
+  let b                      =  col(".")
+  % call HS:align()
+  if cursor(a, b)
   endif
 endfunction
 
-function! haskell:comment_block(which)
+function! HS:comment_horizontal_rule(which)
+  let text                   =  system("yes ' -' | sed '38 q' | tr -d '\n'")
+  if a:which == "begin"
+    call append(".", "{-" . text)
+  else
+    call append(".", text . " -}")
+  endif
+endfunction
+
+function! HS:comment(which)
   if a:which == "haddock"
-    call haskell:comment_horizontal_rule("end")
+    call HS:comment_horizontal_rule("end")
     call append(".", " -  ")
     call append(".", "{-| ")
     normal 1j
     normal 5|
   else
-    call haskell:comment_horizontal_rule("end")
+    call HS:comment_horizontal_rule("end")
     call append(".", "  ")
-    call haskell:comment_horizontal_rule("begin")
+    call HS:comment_horizontal_rule("begin")
     normal 2j
     normal 3|
   endif
 endfunction
 
-nnoremap hshad :silent! call haskell:comment_block("haddock")<CR>
-nnoremap hsblk :silent! call haskell:comment_block("block")<CR>
+command -nargs=1 -complete=custom,HS:co HS :silent! call HS:do("<args>")<CR>
+
+function! HS:co(A,C,P)
+  let vals =
+    [ 'haddock block comment'
+    , 'block comment'
+    , 'align'
+    , 'module header'
+    ]
+  return join(vals, "\n")
+endfunction
+ 
+function! HS:do(which)
+  if count([ 'haddock block comment' , 'block comment' ], a:which) 
+    call HS:comment(a:which)
+  endif
+  if count([ 'module header' ], a:which)
+    call HS:module()
+  endif
+  if count([ 'align' ], a:which)
+    call HS:align_all()
+  endif
+endfunction
+
 
 runtime macros/justify.vim
-nnoremap just :call Justify(&tw)<CR>
+command Just :call Justify(&tw)<CR>
 
-nnoremap tj :silent! call TeXAlign()<CR> 
-function! TeXAlign()
+command TeXalign :silent! call tex:align()<CR> 
+function! tex:align()
 python << PYTHON
 import vim
 import re
-cl = vim.current.line
-width = int(vim.eval("&tw"))
+cl                           =  vim.current.line
+width                        =  int(vim.eval("&tw"))
 m = re.compile(r"\\([^{]+)\{[ ]*(.*[^ ])[ ]*\}").search(cl)
 if m:
-    (command, content) = m.groups()
-    spaced = content.rjust(width - 3 - len(command))
-    vim.current.line = "\\" + command + "{" + spaced + " }"
+    (command, content)       =  m.groups()
+    spaced                   =  content.rjust(width - 3 - len(command))
+    vim.current.line         =  "\\" + command + "{" + spaced + " }"
 PYTHON
 endfunction
 
@@ -75,18 +140,18 @@ function! RHeader(char)
 python << PYTHON
 import vim
 import re
-c = vim.eval("a:char")
-cb = vim.current.buffer
-cw = vim.current.window
-(row, col) = cw.cursor
-width = int(vim.eval("&tw"))
-matter = cb[row - 1].strip()
-#lead_in = re.sub("^(\S)", " \g<1>", c * 2)
-lead_in = c * 2
+c                            =  vim.eval("a:char")
+cb                           =  vim.current.buffer
+cw                           =  vim.current.window
+(row, col)                   =  cw.cursor
+width                        =  int(vim.eval("&tw"))
+matter                       =  cb[row - 1].strip()
+#lead_in                     =  re.sub("^(\S)", " \g<1>", c * 2)
+lead_in                      =  c * 2
 cb[row - 1] = "    " + lead_in + matter.rjust(width - 4 - len(lead_in))
-rn = cb.range(row, row)
+rn                           =  cb.range(row, row)
 rn.append([ "   " + (c * (width - 2)) , "", "    " ])
-cw.cursor = (row + 3, 4)
+cw.cursor                    =  (row + 3, 4)
 PYTHON
 endfunction
 nnoremap hd :silent! call RHeader("-")<CR>
@@ -95,71 +160,34 @@ nnoremap tb :silent! call RHeader("=")<CR>
 " Delete date and such at the top of email replies.
 nnoremap ck :silent! . ! sed -r 's/([> ]*).+, ([^,]+)$/\1\2/'<CR>
 
-function! HaskellAlign()
-python << PYTHON
-import vim
-import re
-cl = vim.current.line
-width = int(vim.eval("&tw"))
-if width is 78:
-    fw = 32 - 5
-    aw = 48 - 2
-elif width is 64:
-    fw = 25 - 5
-    aw = 39
-else:
-    fw = 32 - 5
-    aw = 48 - 2
-m = re.compile(r" (=|::) ").search(cl)
-if not m:
-  m = re.compile(r" (<-|->) ").search(cl)
-if m:
-    fore = re.compile(r"\s+$").sub('', cl[:m.start()])
-    aft = re.compile(r"^\s+").sub('', cl[m.end():])
-    all_spaces = re.compile(r"^\s*$").search(fore)
-    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
-        spaced_out = m.group().rjust(4).ljust(5)
-        formatted = fore.ljust(fw) + spaced_out + aft
-        vim.current.line = formatted
-PYTHON
-endfunction
-function! HaskellAlignAll()
-  let a = line(".")
-  let b = col(".")
-  % call HaskellAlign()
-  if cursor(a, b)
-  endif
-endfunction
-nnoremap hal :call HaskellAlignAll() <CR>
-
 function! BNFAlign()
 python << PYTHON
 import vim
 import re
-cl = vim.current.line
-width = int(vim.eval("&tw"))
+cl                           =  vim.current.line
+width                        =  int(vim.eval("&tw"))
 if width is 78:
-    fw = 25 - 6
-    aw = 55 - 2
+    fw                       =  25 - 6
+    aw                       =  55 - 2
 elif width is 64:
-    fw = 25 - 6
-    aw = 39
+    fw                       =  25 - 6
+    aw                       =  39
 else:
-    fw = 25 - 6
-    aw = 48 - 2
-m = re.compile(r" ::= ").search(cl)
+    fw                       =  25 - 6
+    aw                       =  48 - 2
+m                            =  re.compile(r" ::= ").search(cl)
 if m:
-    fore = re.compile(r"\s+$").sub('', cl[:m.start()])
-    aft = re.compile(r"^\s+").sub('', cl[m.end():])
-    all_spaces = re.compile(r"^\s*$").search(fore)
+    fore                     =  re.compile(r"\s+$").sub('', cl[:m.start()])
+    aft                      =  re.compile(r"^\s+").sub('', cl[m.end():])
+    all_spaces               =  re.compile(r"^\s*$").search(fore)
     if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
-        formatted = fore.ljust(fw) + ' ::=  ' + aft
-        vim.current.line = formatted
+        formatted            =  fore.ljust(fw) + ' ::=  ' + aft
+        vim.current.line     =  formatted
 PYTHON
 endfunction
 function! BNFAlignAll()
-  let a = line(".")
-  let b = col(".")
+  let a                      =  line(".")
+  let b                      =  col(".")
   % call BNFAlign()
   if cursor(a, b)
   endif
