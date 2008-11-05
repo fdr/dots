@@ -26,12 +26,14 @@ set backspace=indent,eol,start
 " end freebsd needs
 
 
-function! HS:module()
+HS = {}
+
+function! HS.module() dict
   let s = expand('%:.:r:gs?/?.?')
   call append(".", "module " . s . " where")
 endfunction
 
-function! HS:align()
+function! HS.align() dict
 python << PYTHON
 import vim
 import re
@@ -60,15 +62,15 @@ if m:
 PYTHON
 endfunction
 
-function! HS:align_all()
+function! HS.align_all() dict
   let a                      =  line(".")
   let b                      =  col(".")
-  % call HS:align()
+  % call self.align()
   if cursor(a, b)
   endif
 endfunction
 
-function! HS:comment_horizontal_rule(which)
+function! HS.comment_horizontal_rule(which)
   let text                   =  system("yes ' -' | sed '38 q' | tr -d '\n'")
   if a:which == "begin"
     call append(".", "{-" . text)
@@ -77,45 +79,32 @@ function! HS:comment_horizontal_rule(which)
   endif
 endfunction
 
-function! HS:comment(which)
-  if a:which == "haddock"
-    call HS:comment_horizontal_rule("end")
-    call append(".", " -  ")
-    call append(".", "{-| ")
-    normal 1j
-    normal 5|
-  else
-    call HS:comment_horizontal_rule("end")
-    call append(".", "  ")
-    call HS:comment_horizontal_rule("begin")
-    normal 2j
-    normal 3|
-  endif
+function! HS.comment_haddock() dict
+  call self.comment_horizontal_rule("end")
+  call append(".", " -  ")
+  call append(".", "{-| ")
+  normal 1j
+  normal 5|
 endfunction
 
-command -nargs=1 -complete=custom,HS:co HS :silent! call HS:do("<args>")<CR>
+function! HS.comment_block() dict
+  call self.comment_horizontal_rule("end")
+  call append(".", "  ")
+  call self.comment_horizontal_rule("begin")
+  normal 2j
+  normal 3|
+endfunction
 
-function! HS:co(A,C,P)
-  let vals =
-    [ 'haddock block comment'
-    , 'block comment'
-    , 'align'
-    , 'module header'
-    ]
-  return join(vals, "\n")
+command! -nargs=1 -complete=custom,HSCo HS :silent! call HSDo("<args>")<CR>
+
+function! HSCo(A,C,P)
+  return join(keys(g:HS), "\n")
 endfunction
  
-function! HS:do(which)
-  if count([ 'haddock block comment' , 'block comment' ], a:which) 
-    call HS:comment(a:which)
-  endif
-  if count([ 'module header' ], a:which)
-    call HS:module()
-  endif
-  if count([ 'align' ], a:which)
-    call HS:align_all()
-  endif
+function! HSDo(which) dict
+  call self[a:which]()
 endfunction
+
 
 
 runtime macros/justify.vim
