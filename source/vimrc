@@ -92,7 +92,7 @@ function! haskell:comment_block()
   normal 3|
 endfunction
 
-command! -nargs=1 -complete=custom,haskell:complete HS
+command! -nargs=+ -complete=custom,haskell:complete HS
 \ :silent! call haskell:dispatch("<args>")<CR>
 
 function! haskell:complete(A,C,P)
@@ -126,7 +126,7 @@ function! cabal:align_all()
   call cursor(a, b)
 endfunction
 
-command! -nargs=1 -complete=custom,cabal:complete CABAL
+command! -nargs=+ -complete=custom,cabal:complete CABAL
 \ :silent! call cabal:dispatch("<args>")<CR>
 
 function! cabal:complete(A,C,P)
