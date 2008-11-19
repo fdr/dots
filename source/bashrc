@@ -6,7 +6,6 @@
 
 
 [ -e $f ] && rm -rf $HISTFILE
-#[ -f /etc/profile ] && source /etc/profile
 
 
 bc="bash_completion"
@@ -40,17 +39,14 @@ case `uname` in
   FreeBSD)
     bsd_aliases
     dynamic_aliases
-    umask 007
     ;;
   Darwin)
     bsd_aliases
     dynamic_aliases
-    umask 007
     ;;
   Linux)
     gnu_aliases
     dynamic_aliases
-    umask 007
     ;;
 esac    
 
@@ -59,20 +55,6 @@ do
   [ -f $f ] && source $f
 done
 
-
-alias   go='pushd'
-alias   b='popd'
-alias   h='history'
-alias   r='rm -r'
-alias   c='clear'
-alias   t='tail -n 50'
-alias   g='egrep --color'
-alias   :x='exit'
-alias   :q='exit'
-alias   ri='ri -f ansi'
-
-
-set -o vi
 
 
 ## begin prompt of power ##############################################
@@ -123,4 +105,17 @@ export  BROWSER=firefox
 export  HISTIGNORE="&:h:exit"
 export  PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export  TZ=/usr/share/zoneinfo/America/Los_Angeles
+
+alias   go='pushd'
+alias   b='popd'
+alias   h='history'
+alias   r='rm -r'
+alias   c='clear'
+alias   :x='exit'
+alias   :q='exit'
+alias   :e=$EDITOR
+alias   ri='ri -f ansi'
+
+set -o vi
+
 
