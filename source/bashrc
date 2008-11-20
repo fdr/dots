@@ -70,11 +70,11 @@ export          PS2='  '
 ## end prompt of power ################################################
 
 
-if which vimpager >&/dev/null
-then
-# export        PAGER=vimpager
-# export        MANPAGER=vimmanpager
-fi
+##if which vimpager >&/dev/null
+##then
+##  export        PAGER=vimpager
+##  export        MANPAGER=vimmanpager
+##fi
 export          EDITOR=vim
 export          TEXEDIT="${EDITOR} +%d %s"
 export          RUBYOPT="${RUBYOPT} -Ku"
