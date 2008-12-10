@@ -77,8 +77,7 @@ function! haskell:comment_horizontal_rule(which)
 endfunction
 
 function! haskell:comment_haddock()
-  call haskell:comment_horizontal_rule("end")
-  call append(".", " -  ")
+  call append(".", " -}")
   call append(".", "{-| ")
   normal 1j
   normal 5|
@@ -107,13 +106,13 @@ let HS =
 \ { "align all" : function("haskell:align_all")
 \ , "haddock comment block" : function("haskell:comment_haddock")
 \ , "module header" : function("haskell:module")
-\ , "comment block" : function("haskell:comment_block")
+\ , "block comment" : function("haskell:comment_block")
 \ }
 
 
 function! cabal:align()
   let matches = matchlist(getline("."), '\v(^.+):( +)(.+$)')
-  let diff = 30 - strlen(matches[1])
+  let diff = 18 - strlen(matches[1])
   if diff > 0 
     call setline(".", matches[1] . repeat(" ", diff) . ": " . matches[3])
   endif
