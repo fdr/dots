@@ -159,26 +159,41 @@ if m:
 PYTHON
 endfunction
 
-function! RHeader(char)
-python << PYTHON
-import vim
-import re
-c                            =  vim.eval("a:char")
-cb                           =  vim.current.buffer
-cw                           =  vim.current.window
-(row, col)                   =  cw.cursor
-width                        =  int(vim.eval("&tw"))
-matter                       =  cb[row - 1].strip()
-#lead_in                     =  re.sub("^(\S)", " \g<1>", c * 2)
-lead_in                      =  c * 2
-cb[row - 1] = "    " + lead_in + matter.rjust(width - 4 - len(lead_in))
-rn                           =  cb.range(row, row)
-rn.append([ "   " + (c * (width - 2)) , "", "    " ])
-cw.cursor                    =  (row + 3, 4)
-PYTHON
+function! readme:general_header(underline_char)
+  let matches = matchlist(getline("."), '\v[\t ]*(.+)([^\t ])[\t ]*$')
+  let width = eval("&tw")
+  let s = matches[1] . matches[2]
+  let padding = width - strlen(s)
+  call setline(".", "")
+  normal o
+  call setline(".", repeat(" ", padding) . s)
+  normal o
+  call setline(".", "   " . repeat(a:underline_char, width - 2))
+  normal o
+  call setline(".", "")
+  normal 2o
+  normal 2k 
 endfunction
-nnoremap hd :silent! call RHeader("-")<CR>
-nnoremap tb :silent! call RHeader("=")<CR>
+
+function! readme:header()
+  call readme:general_header("-")
+endfunction
+
+command! -nargs=+ -complete=custom,readme:complete README
+\ :silent! call readme:dispatch("<args>")<CR>
+
+function! readme:complete(A,C,P)
+  return join(keys(g:README), "\n")
+endfunction
+ 
+function! readme:dispatch(which)
+  call g:README[a:which]()
+endfunction
+
+let README =
+\ { "header" : function("readme:header")
+\ }
+
 
 " Delete date and such at the top of email replies.
 nnoremap ck :silent! . ! sed -r 's/([> ]*).+, ([^,]+)$/\1\2/'<CR>
