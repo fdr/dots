@@ -27,37 +27,39 @@ set backspace=indent,eol,start
 
 
 function! haskell:module()
-  let s = expand('%:.:r:gs?/?.?')
+  let s                      =  expand('%:.:r:gs?/?.?')
   call append(".", "module " . s . " where")
 endfunction
 
+function! haskell:line_fill(beg, mid, end)
+  if strlen(a:beg) <= 27 && strlen(a:mid) <= 2 && strlen(a:end) <= 46
+    let pad_beg              =  a:beg . repeat(" ", 27 - strlen(a:beg))
+    let pad_mid              =  repeat(" ", 3 - strlen(a:mid)) . a:mid . "  "
+    call setline(".", pad_beg . pad_mid . a:end)
+  endif
+endfunction
+
 function! haskell:align()
-python << PYTHON
-import vim
-import re
-cl                           =  vim.current.line
-width                        =  int(vim.eval("&tw"))
-if width is 78:
-    fw                       =  32 - 5
-    aw                       =  48 - 2
-elif width is 64:
-    fw                       =  25 - 5
-    aw                       =  39
-else:
-    fw                       =  32 - 5
-    aw                       =  48 - 2
-m                            =  re.compile(r" (=|::) ").search(cl)
-if not m:
-  m                          =  re.compile(r" (<-|->) ").search(cl)
-if m:
-    fore                     =  re.compile(r"\s+$").sub('', cl[:m.start()])
-    aft                      =  re.compile(r"^\s+").sub('', cl[m.end():])
-    all_spaces               =  re.compile(r"^\s*$").search(fore)
-    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
-        spaced_out           =  m.group().rjust(4).ljust(5)
-        formatted            =  fore.ljust(fw) + spaced_out + aft
-        vim.current.line     =  formatted
-PYTHON
+  let leading                =  '^( *[^ ]+( +[^ ]+)*) +'
+  let trailing               =  ' +([^ ]+( +[^ ]+)*) *$'
+  let defines_pat            =  '\v' . leading . '(\=|\<-)' . trailing
+  let signature_pat          =  '\v' . leading .   '(::)'   . trailing
+  let case_pat               =  '\v' . leading .  '(-\>)'   . trailing
+  let text                   =  getline(".")
+  let defines                =  matchlist(text, defines_pat)
+  if ! empty(defines)
+    call haskell:line_fill(defines[1], defines[3], defines[4])
+  else
+    let signature            =  matchlist(text, signature_pat)
+    if ! empty(signature)
+      call haskell:line_fill(signature[1], signature[3], signature[4])
+    else
+      let case               =  matchlist(text, case_pat)
+      if ! empty(case)
+        call haskell:line_fill(case[1], case[3], case[4])
+      endif
+    endif
+  endif
 endfunction
 
 function! haskell:align_all()
@@ -111,8 +113,8 @@ let HS =
 
 
 function! cabal:align()
-  let matches = matchlist(getline("."), '\v(^.+):( +)(.+$)')
-  let diff = 18 - strlen(matches[1])
+  let matches                =  matchlist(getline("."), '\v(^.+):( +)(.+)$')
+  let diff                   =  18 - strlen(matches[1])
   if diff > 0 
     call setline(".", matches[1] . repeat(" ", diff) . ": " . matches[3])
   endif
@@ -161,9 +163,9 @@ endfunction
 
 function! readme:general_header(underline_char)
   let matches = matchlist(getline("."), '\v[\t ]*(.+)([^\t ])[\t ]*$')
-  let width = eval("&tw")
-  let s = matches[1] . matches[2]
-  let padding = width - strlen(s)
+  let width                  =  eval("&tw")
+  let s                      =  matches[1] . matches[2]
+  let padding                =  width - strlen(s)
   call setline(".", "")
   normal o
   call setline(".", repeat(" ", padding) . s)
@@ -180,9 +182,9 @@ function! readme:header()
 endfunction
 
 function! readme:codez()
-  let width = eval("&tw")
-  let top = "ˋ" . repeat(" ", width) . "ˊ"
-  let bot = "ˏ" . repeat(" ", width) . "ˎ"
+  let width                  =  eval("&tw")
+  let top                    =  "ˋ" . repeat(" ", width) . "ˊ"
+  let bot                    =  "ˏ" . repeat(" ", width) . "ˎ"
   normal o
   call setline(".", top) 
   normal 4o
