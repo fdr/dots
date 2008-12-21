@@ -179,6 +179,17 @@ function! readme:header()
   call readme:general_header("-")
 endfunction
 
+function! readme:codez()
+  let width = eval("&tw")
+  let top = "ˋ" . repeat(" ", width) . "ˊ"
+  let bot = "ˏ" . repeat(" ", width) . "ˎ"
+  normal o
+  call setline(".", top) 
+  normal 4o
+  call setline(".", bot) 
+  normal 3k 
+endfunction
+
 command! -nargs=+ -complete=custom,readme:complete README
 \ :silent! call readme:dispatch("<args>")<CR>
 
@@ -192,6 +203,7 @@ endfunction
 
 let README =
 \ { "header" : function("readme:header")
+\ , "codez" : function("readme:codez")
 \ }
 
 
