@@ -56,7 +56,10 @@ function! haskell:align()
     else
       let case               =  matchlist(text, case_pat)
       if ! empty(case)
-        call haskell:line_fill(case[1], case[3], case[4])
+        " Ignore '->' when in data definitions and multi-line type signatures.
+        if text !~ '\v^ +(-\>|::|\=\>|\=|\|)'
+          call haskell:line_fill(case[1], case[3], case[4])
+        endif
       endif
     endif
   endif
