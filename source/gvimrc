@@ -6,5 +6,7 @@ endif
 
 set columns=80 lines=50
 set guioptions-=T guioptions-=r guioptions-=R
-silent! colorscheme evening
+silent! colorscheme pablo 
+
+set encoding=utf-8
 

@@ -149,20 +149,6 @@ let CABAL =
 runtime macros/justify.vim
 command Just :call Justify(&tw)<CR>
 
-command TeXalign :silent! call tex:align()<CR> 
-function! tex:align()
-python << PYTHON
-import vim
-import re
-cl                           =  vim.current.line
-width                        =  int(vim.eval("&tw"))
-m = re.compile(r"\\([^{]+)\{[ ]*(.*[^ ])[ ]*\}").search(cl)
-if m:
-    (command, content)       =  m.groups()
-    spaced                   =  content.rjust(width - 3 - len(command))
-    vim.current.line         =  "\\" + command + "{" + spaced + " }"
-PYTHON
-endfunction
 
 function! readme:general_header(underline_char)
   let matches = matchlist(getline("."), '\v[\t ]*(.+)([^\t ])[\t ]*$')
@@ -212,48 +198,17 @@ let README =
 \ }
 
 
-" Delete date and such at the top of email replies.
-nnoremap ck :silent! . ! sed -r 's/([> ]*).+, ([^,]+)$/\1\2/'<CR>
-
-function! BNFAlign()
-python << PYTHON
-import vim
-import re
-cl                           =  vim.current.line
-width                        =  int(vim.eval("&tw"))
-if width is 78:
-    fw                       =  25 - 6
-    aw                       =  55 - 2
-elif width is 64:
-    fw                       =  25 - 6
-    aw                       =  39
-else:
-    fw                       =  25 - 6
-    aw                       =  48 - 2
-m                            =  re.compile(r" ::= ").search(cl)
-if m:
-    fore                     =  re.compile(r"\s+$").sub('', cl[:m.start()])
-    aft                      =  re.compile(r"^\s+").sub('', cl[m.end():])
-    all_spaces               =  re.compile(r"^\s*$").search(fore)
-    if len(fore) <= fw and len(aft) <= aw and not len(fore) is 0:
-        formatted            =  fore.ljust(fw) + ' ::=  ' + aft
-        vim.current.line     =  formatted
-PYTHON
-endfunction
-function! BNFAlignAll()
-  let a                      =  line(".")
-  let b                      =  col(".")
-  % call BNFAlign()
-  if cursor(a, b)
-  endif
-endfunction
-nnoremap bal :call BNFAlignAll() <CR>
-
 filetype plugin indent on
+
+autocmd BufRead *.hsc setlocal filetype=haskell
+autocmd BufEnter *.hs compiler ghc
+autocmd BufEnter *.lhs compiler ghc
+let g:haddock_browser = "/Applications/Firefox.app/Contents/MacOS/firefox-bin"
+let g:haddock_docdir = "/usr/share/doc/ghc/"
+let g:haddock_indexfiledir = "/Users/Shared/.vim/"
 
 autocmd BufRead *.messagebody setlocal filetype=messagebody
 autocmd BufRead *.wiki setlocal filetype=wikipedia
-autocmd BufRead *.hsc setlocal filetype=haskell
 
 autocmd FileType ldif setlocal list
 autocmd FileType messagebody setlocal textwidth=64 wrap
@@ -265,10 +220,10 @@ autocmd FileType mkd setlocal textwidth=78 wrap
 autocmd FileType wikipedia setlocal textwidth=78
 
 if has("autocmd") && exists("+omnifunc")
-	autocmd Filetype *
-	\	if &omnifunc == "" |
-	\		setlocal omnifunc=syntaxcomplete#Complete |
-	\	endif
+  autocmd Filetype *
+  \ if &omnifunc == "" |
+  \   setlocal omnifunc=syntaxcomplete#Complete |
+  \ endif
 endif
 
 " au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
