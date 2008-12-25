@@ -47,18 +47,20 @@ function! haskell:align()
   let case_pat               =  '\v' . leading .  '(-\>)'   . trailing
   let text                   =  getline(".")
   let defines                =  matchlist(text, defines_pat)
-  if ! empty(defines)
-    call haskell:line_fill(defines[1], defines[3], defines[4])
-  else
-    let signature            =  matchlist(text, signature_pat)
-    if ! empty(signature)
-      call haskell:line_fill(signature[1], signature[3], signature[4])
+  if text !~ '\v^ *--'
+    if ! empty(defines)
+      call haskell:line_fill(defines[1], defines[3], defines[4])
     else
-      let case               =  matchlist(text, case_pat)
-      if ! empty(case)
-        " Ignore '->' when in data definitions and multi-line type signatures.
-        if text !~ '\v^ +(-\>|::|\=\>|\=|\|)'
-          call haskell:line_fill(case[1], case[3], case[4])
+      let signature          =  matchlist(text, signature_pat)
+      if ! empty(signature)
+        call haskell:line_fill(signature[1], signature[3], signature[4])
+      else
+        let case             =  matchlist(text, case_pat)
+        if ! empty(case)
+          " Ignore '->' when in data definitions and multi-line type signatures.
+          if text !~ '\v^ +(-\>|::|\=\>|\=|\|)'
+            call haskell:line_fill(case[1], case[3], case[4])
+          endif
         endif
       endif
     endif
@@ -198,14 +200,38 @@ let README =
 \ }
 
 
+function! email:cure_google_date()
+  let text = matchlist(getline("."), '\v.+, .+ ([^ ]+) wrote:$')
+  . ! sed -r 's/^On ([^,]+, [^,]+, [^, ]+) at ([^,]+),.+/date --date "\1 \2"/' | sh | sed -r 's/^.+$/date "+\%FT\%TZ" --utc --date "\0"/' | sh
+  " Date is always 20 characters long.
+  let padding                =  repeat(" ", 64 - 20 - strlen(text[1]))
+  s/^/\= text[1] . padding /
+endfunction
+
+command! -nargs=+ -complete=custom,email:complete EMAIL
+\ :silent! call email:dispatch("<args>")<CR>
+
+function! email:complete(A,C,P)
+  return join(keys(g:EMAIL), "\n")
+endfunction
+ 
+function! email:dispatch(which)
+  call g:EMAIL[a:which]()
+endfunction
+
+let EMAIL =
+\ { "wrote" : function("email:cure_google_date")
+\ }
+
+
 filetype plugin indent on
 
 autocmd BufRead *.hsc setlocal filetype=haskell
 autocmd BufEnter *.hs compiler ghc
 autocmd BufEnter *.lhs compiler ghc
 let g:haddock_browser = "/Applications/Firefox.app/Contents/MacOS/firefox-bin"
-let g:haddock_docdir = "/usr/share/doc/ghc/"
-let g:haddock_indexfiledir = "/Users/Shared/.vim/"
+let g:haddock_docdir         =  "/usr/share/doc/ghc/"
+let g:haddock_indexfiledir   =  "/Users/Shared/.vim/"
 
 autocmd BufRead *.messagebody setlocal filetype=messagebody
 autocmd BufRead *.wiki setlocal filetype=wikipedia
