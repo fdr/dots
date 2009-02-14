@@ -26,6 +26,8 @@ set backspace=indent,eol,start
 " end freebsd needs
 
 
+
+
 function! haskell:module()
   let s                      =  expand('%:.:r:gs?/?.?')
   call append(".", "module " . s . " where")
@@ -117,6 +119,8 @@ let HS =
 \ }
 
 
+
+
 function! cabal:align()
   let matches                =  matchlist(getline("."), '\v(^.+):( +)(.+)$')
   let diff                   =  18 - strlen(matches[1])
@@ -148,8 +152,6 @@ let CABAL =
 \ }
 
 
-runtime macros/justify.vim
-command Just :call Justify(&tw)<CR>
 
 
 function! readme:general_header(underline_char)
@@ -200,6 +202,8 @@ let README =
 \ }
 
 
+
+
 function! email:cure_google_date()
   let text = matchlist(getline("."), '\v.+, .+ ([^ ]+) wrote:$')
   . ! sed -r 's/^On ([^,]+, [^,]+, [^, ]+) at ([^,]+),.+/date --date "\1 \2"/' | sh | sed -r 's/^.+$/date "+\%FT\%TZ" --utc --date "\0"/' | sh
@@ -214,7 +218,7 @@ command! -nargs=+ -complete=custom,email:complete EMAIL
 function! email:complete(A,C,P)
   return join(keys(g:EMAIL), "\n")
 endfunction
- 
+
 function! email:dispatch(which)
   call g:EMAIL[a:which]()
 endfunction
@@ -223,6 +227,39 @@ let EMAIL =
 \ { "wrote" : function("email:cure_google_date")
 \ }
 
+
+
+
+function! css:adjust_colon_and_semicolon()
+  let text = matchlist(getline("."), '\v^[ ]+([^:]+):[ ]+([^;]+);(.*)$')
+  if ! empty(text)
+    let east_side = "; " . text[1]
+    let west_side = text[2] . text[3]
+    let dark_side = repeat(" ", 32 - 4 - strlen(east_side))
+    call setline(".", east_side . dark_side . " :  " . west_side)
+  endif
+endfunction
+
+command! -nargs=+ -complete=custom,css:complete CSS
+\ :silent! call css:dispatch("<args>")<CR>
+
+function! css:complete(A,C,P)
+  return join(keys(g:CSS), "\n")
+endfunction
+
+function! css:dispatch(which)
+  call g:CSS[a:which]()
+endfunction
+
+let CSS =
+\ { "align" : function("css:adjust_colon_and_semicolon")
+\ }
+
+
+
+
+runtime macros/justify.vim
+command Just :call Justify(&tw)<CR>
 
 filetype plugin indent on
 
