@@ -1,10 +1,11 @@
 if has("gui_gtk2")
   set guifont=MiscFixed\ 8 
 else
-  set guifont=-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
+  set guifont=Anonymous
+  "set guifont=-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso8859-1
 endif
 
-set columns=80 lines=50
+set columns=80 lines=50 visualbell
 set guioptions-=T guioptions-=r guioptions-=R
 silent! colorscheme pablo 
 
