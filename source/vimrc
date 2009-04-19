@@ -272,6 +272,7 @@ let g:haddock_indexfiledir   =  "/Users/Shared/.vim/"
 
 autocmd BufRead *_mailbody_* setlocal filetype=messagebody
 autocmd BufRead *.wiki setlocal filetype=wikipedia
+autocmd BufRead www.tumblr.com_textpost* setlocal filetype=mkd
 
 autocmd FileType ldif setlocal list
 autocmd FileType messagebody setlocal textwidth=64 wrap
