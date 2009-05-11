@@ -77,7 +77,6 @@ export          PS2='  '
 ##fi
 export          EDITOR=vim
 export          TEXEDIT="${EDITOR} +%d %s"
-export          RUBYOPT="${RUBYOPT} -Ku"
 export          BROWSER=firefox
 export          HISTIGNORE="&:h:exit"
 export          PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
