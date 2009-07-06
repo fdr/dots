@@ -46,14 +46,15 @@ FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
 
-dir="pwd -P | awk '{ printf \"%-65.65s\", \$0 }'"
+d="pwd -P | $regsed 's/(.{30})..+..(.{30})/\1....\2/'"
+j="awk '{ printf \"%-65.65s\", \$0 }'"
 sub="$regsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
 t="date +%H:%M"
 hist="awk '{ printf \"%03.3d\", \$1 }' <<< \\#"
 warn="[ $USER = root ] && echo -n '$HIGH' || echo -n '$FADE'"
 bang="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
 
-prompt=" $DARK: \`$dir | $sub\` \`$warn;$bang;\`$NORM\`$hist\` \`$t | $sub\`
+prompt=" $DARK: \`$d | $j | $sub\` \`$warn;$bang;\`$NORM\`$hist\` \`$t | $sub\`
  $DARK:\`$warn\`; $REST"
 
 prepend=''
