@@ -8,6 +8,7 @@ set autoread
 set foldminlines=1
 set shiftwidth=2
 set softtabstop=2
+" set showtabline=2
 set expandtab
 set textwidth=78 wrap
 set nohlsearch
@@ -291,7 +292,7 @@ if has("autocmd") && exists("+omnifunc")
 endif
 
 " au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
-au FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4 expandtab
 
 augroup mkd
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
