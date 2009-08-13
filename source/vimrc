@@ -86,11 +86,22 @@ function! haskell:comment_horizontal_rule(which)
   endif
 endfunction
 
-function! haskell:comment_haddock()
+function! haskell:comment_haddock_either(char)
+  call setline(".", "{-" . a:char . " ")
+  call cursor(line("."), 4, 1)
   call append(".", " -}")
-  call append(".", "{-| ")
-  normal 1j
-  normal 5|
+endfunction
+
+function! haskell:comment_haddock()
+  let nothing                =  '\v^ *$'
+  if getline(".") =~ nothing
+    if getline(line(".") - 1) =~ nothing 
+      let char               =  "|"
+    else
+      let char               =  "^"
+    endif
+    call haskell:comment_haddock_either(char)
+  endif
 endfunction
 
 function! haskell:comment_block()
@@ -234,9 +245,9 @@ let EMAIL =
 function! css:adjust_colon_and_semicolon()
   let text = matchlist(getline("."), '\v^[ ]+([^:]+):[ ]+([^;]+);(.*)$')
   if ! empty(text)
-    let east_side = "; " . text[1]
-    let west_side = text[2] . text[3]
-    let dark_side = repeat(" ", 32 - 4 - strlen(east_side))
+    let east_side            =  "; " . text[1]
+    let west_side            =  text[2] . text[3]
+    let dark_side            =  repeat(" ", 32 - 4 - strlen(east_side))
     call setline(".", east_side . dark_side . " :  " . west_side)
   endif
 endfunction
