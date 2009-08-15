@@ -52,7 +52,10 @@ function! haskell:align()
   let defines                =  matchlist(text, defines_pat)
   if text !~ '\v^ *--'
     if ! empty(defines)
-      call haskell:line_fill(defines[1], defines[3], defines[4])
+      " Ignore '<-' when in a guard.
+      if ! (defines[3] == '<-' && text =~ '\v^ +\|')
+        call haskell:line_fill(defines[1], defines[3], defines[4])
+      endif
     else
       let signature          =  matchlist(text, signature_pat)
       if ! empty(signature)
