@@ -126,12 +126,13 @@ endif
 
 if ! exists ("erlang_keywords")
     " Constants and Directives
-    syn match   erlangDirective  "-behaviour\|-behaviour"
-    syn match   erlangDirective  "-compile\|-define\|-else\|-endif\|-export\|-file"
-    syn match   erlangDirective  "-ifdef\|-ifndef\|-import\|-include_lib\|-include"
-    syn match   erlangDirective  "-module\|-record\|-undef"
-
-    syn match   erlangConstant   "-author\|-copyright\|-doc\|-vsn"
+    syn match   erlangMiscDef    "^-[a-zA-Z_][a-zA-Z_]*"
+    syn match   erlangDirective  "^-behaviour"
+    syn match   erlangDirective  "^-compile\|^-define\|^-else\|^-endif"
+    syn match   erlangDirective  "^-export\|^-file\|^-ifdef\|^-ifndef"
+    syn match   erlangDirective  "^-import\|^-include_lib\|^-include"
+    syn match   erlangDirective  "^-module\|^-record\|^-undef"
+    syn match   erlangConstant   "^-author\|^-copyright\|^-doc\|^-vsn"
 
     " Keywords
     syn keyword erlangKeyword    after begin case catch
@@ -217,6 +218,7 @@ if version >= 508 || !exists ("did_erlang_inits")
     " erlang_keywords
     HiLink erlangDirective Type
     HiLink erlangConstant Type
+    HiLink erlangMiscDef Keyword
     HiLink erlangKeyword Keyword
     HiLink erlangProcess Special
     HiLink erlangPort Special
