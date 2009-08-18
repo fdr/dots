@@ -1,4 +1,3 @@
-" markdown filetype file
 if exists("did_load_filetypes")
   finish
 endif
@@ -6,9 +5,15 @@ augroup markdown
   au! BufRead,BufNewFile *.mkd   setfiletype mkd
 augroup END
 
+" Handle escript Erlang files.
+au BufRead *
+\ if getline(1) =~ "escript" |
+\   set filetype=erlang |
+\ endif
+
 " /etc/init.d/ scripts rooted elsewhere
 au BufNewFile,BufRead */etc/init.d/*
-\ if (getline(1) ==? "#!/sbin/runscript") |
+\ if getline(1) ==? "#!/sbin/runscript" |
 \     set filetype=gentoo-init-d |
 \ endif
 
