@@ -290,7 +290,7 @@ autocmd BufRead *.wiki setlocal filetype=wikipedia
 autocmd BufRead www.tumblr.com_textpost* setlocal filetype=mkd
 
 autocmd FileType ldif setlocal list
-autocmd FileType messagebody setlocal textwidth=64 wrap
+autocmd FileType mail setlocal textwidth=64 wrap
 autocmd FileType mkd setlocal textwidth=78 wrap
 
 
