@@ -33,5 +33,7 @@ augroup filetypedetect
   au! BufRead,BufNewFile *.bnf setfiletype yabnf
   " xen's .xm files are python
   au! BufRead,BufNewFile *.xm setfiletype python
+  " Rackup files are Ruby.
+  au! BufRead,BufNewFile *.ru setfiletype ruby
 augroup END
 
