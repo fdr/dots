@@ -36,6 +36,6 @@ augroup filetypedetect
   " Rackup files are Ruby.
   au! BufRead,BufNewFile *.ru setfiletype ruby
   " Files from Google mail text areas are mail.
-  au! BufRead,BufNewFile *_mailbody_* setfiletype mail
+  au! BufRead,BufNewFile mail.google.com_*body_* setfiletype mail
 augroup END
 
