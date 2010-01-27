@@ -51,7 +51,7 @@ j="awk '{ printf \"%-65.65s\", \$0 }'"
 sub="$regsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
 t="date +%H:%M"
 hist="awk '{ printf \"%03.3d\", \$1 }' <<< \\#"
-warn="[ $USER = root ] && echo -n '$HIGH' || echo -n '$FADE'"
+warn="[ `whoami` = root ] && echo -n '$HIGH' || echo -n '$FADE'"
 bang="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
 
 prompt=" $DARK: \`$d | $j | $sub\` \`$warn;$bang;\`$NORM\`$hist\` \`$t | $sub\`
