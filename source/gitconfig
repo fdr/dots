@@ -1,0 +1,9 @@
+[push]
+	default = current
+[color]
+	ui = auto
+[log]
+	date = iso
+[user]
+	name = Jason Dusek
+	email = jason.dusek@gmail.com
