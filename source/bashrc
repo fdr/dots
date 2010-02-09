@@ -39,6 +39,10 @@ done
 # didn't work very well with sh. Now, I have mastered the various
 # levels of evaluation and quoting of the shell and can confidently
 # write hideous macros!
+#
+# At one time, this was supposed to work in Bourne shell, too -- but never
+# mind all that.
+#
 
 DARK="\[\e[01;34m\]"
 NORM="\[\e[01;32m\]"
@@ -78,19 +82,18 @@ export          PS2='  '
 ##fi
 export          EDITOR=vim
 export          TEXEDIT="${EDITOR} +%d %s"
-export          BROWSER=firefox
 export          PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export          TZ=/usr/share/zoneinfo/America/Los_Angeles
+export          LANG=en_DK.UTF-8
+export          LC_ALL=en_DK.UTF-8
 
 alias           go='pushd'
 alias           b='popd'
 alias           h='history'
 alias           r='rm -r'
-alias           c='clear'
 alias           :x='exit'
 alias           :q='exit'
 alias           :e=$EDITOR
-alias           ri='ri -f ansi'
 
 set -o vi
 
