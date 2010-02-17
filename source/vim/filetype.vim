@@ -37,5 +37,12 @@ augroup filetypedetect
   au! BufRead,BufNewFile *.ru setfiletype ruby
   " Files from Google mail text areas are mail.
   au! BufRead,BufNewFile mail.google.com_*body_* setfiletype mail
+  " NGinX configuration files.
+  au! BufRead,BufNewFile nginx.conf setfiletype nginx
+  au! BufRead,BufNewFile /etc/nginx/*.conf setfiletype nginx
+  au! BufRead,BufNewFile /etc/nginx/*/*.conf setfiletype nginx
 augroup END
+
+
+
 
