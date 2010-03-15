@@ -307,10 +307,6 @@ endif
 " au FileType c setlocal tabstop=8 shiftwidth=8 noexpandtab
 au FileType python setlocal softtabstop=4 tabstop=4 shiftwidth=4 expandtab
 
-augroup mkd
-  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
-augroup END
-
 " annoying initial highlights removed
 nohlsearch
 
