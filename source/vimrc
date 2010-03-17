@@ -243,6 +243,24 @@ let EMAIL =
 \ }
 
 
+function! timestamp:zulu()
+  . ! (cat ; date --utc '+\%FT\%TZ')
+endfunction
+
+command! -nargs=+ -complete=custom,timestamp:complete TIMESTAMP 
+\ :silent! call timestamp:dispatch("<args>")<CR>
+
+function! timestamp:complete(A,C,P)
+  return join(keys(g:TIMESTAMP), "\n")
+endfunction
+
+function! timestamp:dispatch(which)
+  call g:TIMESTAMP[a:which]()
+endfunction
+
+let TIMESTAMP =
+\ { "zulu" : function("timestamp:zulu")
+\ }
 
 
 function! css:adjust_colon_and_semicolon()
