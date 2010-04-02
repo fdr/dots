@@ -11,9 +11,9 @@
 function dynamic_aliases {
   if sed --version >&/dev/null
   then  # GNU sed
-    regsed="sed -r"
+    rsed="sed -r"
   else  # BSD sed
-    regsed="sed -E"
+    rsed="sed -E"
   fi
   if ls --version >&/dev/null
   then  # GNU ls
@@ -39,10 +39,6 @@ done
 # didn't work very well with sh. Now, I have mastered the various
 # levels of evaluation and quoting of the shell and can confidently
 # write hideous macros!
-#
-# At one time, this was supposed to work in Bourne shell, too -- but never
-# mind all that.
-#
 
 DARK="\[\e[01;34m\]"
 NORM="\[\e[01;32m\]"
@@ -50,16 +46,14 @@ FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
 
-d="pwd -P | $regsed 's/(.{30})..+..(.{30})/\1....\2/'"
-j="awk '{ printf \"%-65.65s\", \$0 }'"
-sub="$regsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/g'"
-t="date +%H:%M"
-hist="awk '{ printf \"%03.3d\", \$1 }' <<< \\#"
-warn="[ `whoami` = root ] && echo -n '$HIGH' || echo -n '$FADE'"
-bang="echo -ne '\x21'"  ## this gives me a single '!' in bash and sh
+d="pwd -P | $rsed 's/(.{19})..+.(.{18})/\1...\2/' | xargs printf '%-40.40s'"
+h="hostname | $rsed 's/(.{9})..+.(.{8})/\1...\2/' | xargs printf '%-20.20s'"
+u="whoami | $rsed 's/(.{6})..+.(.{6})/\1...\2/' | xargs printf '%15.15s'"
+sub="$rsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/'"
+warn=`[ \`whoami\` = root ] && echo -n $NORM || echo -n $DARK`
 
-prompt=" $DARK: \`$d | $j | $sub\` \`$warn;$bang;\`$NORM\`$hist\` \`$t | $sub\`
- $DARK:\`$warn\`; $REST"
+prompt="$DARK: \`$d | $sub\` $warn\`$u\`$FADE@$DARK\`$h\`$FADE;
+$DARK:$FADE ;$REST "
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
@@ -84,8 +78,6 @@ export          EDITOR=vim
 export          TEXEDIT="${EDITOR} +%d %s"
 export          PATH=$PATH:/sbin/:/usr/sbin/:$HOME/bin:./bin:.
 export          TZ=/usr/share/zoneinfo/America/Los_Angeles
-export          LANG=en_DK.UTF-8
-export          LC_ALL=en_DK.UTF-8
 
 alias           go='pushd'
 alias           b='popd'
