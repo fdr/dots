@@ -45,6 +45,19 @@ NORM="\[\e[01;32m\]"
 FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
+BGHI="\[\e[40m\]"
+BGLO="\[\e[00m\]"
+
+##  Notes for crazy shit with `tput`.
+#
+#   tput smso # Standout mode or reverse video; works great for black/gray.
+#
+#   tput smul # Underline mode; smooth, continuous underline.
+#
+#   http://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
+#
+
+
 
 function dir {
   pwd -P | $rsed 's/(.{19})..+.(.{18})/\1...\2/'  # At most 40 chars.
@@ -58,6 +71,29 @@ function user {
   whoami | $rsed 's/(.{7})..+.(.{6})/\1...\2/'    # At most 16 chars.
 }
 
+function bold {
+  tput bold
+}
+
+function gray {
+  tput setaf 0
+}
+
+function blue {
+  tput setaf 4
+}
+
+function green {
+  tput setaf 2
+}
+
+function red {
+  tput setaf 1
+}
+
+function root_warn {
+  [ $1 = 'root' ] && red
+}
 
 # The function below does not work.
 sub="$rsed 's|/|$FADE&$NORM|g ; s/@/$FADE&$DARK/ ; s/:/$FADE&$DARK/'"
@@ -69,9 +105,9 @@ function ssh_style {
   (user; echo -n '@'; host; echo -n ':'; dir ) | xargs | sed -r 's/ //g'
 }
 
-warn=`[ \`whoami\` = root ] && echo -n $NORM || echo -n $DARK`
-prompt="$DARK: \`ssh_style | xargs printf '%-76s' | $sub\` $FADE;
-$DARK:$FADE;$REST  "
+warn=`[ \`whoami\` = root ] && echo -n $BGHI || echo -n ''`
+prompt="\`bold ; blue\`: \`ssh_style | xargs printf '%-76s' | $sub\` $FADE;
+\`bold ; blue\`:$FADE;  $REST"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
