@@ -45,8 +45,6 @@ NORM="\[\e[01;32m\]"
 FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
-BGHI="\[\e[40m\]"
-BGLO="\[\e[00m\]"
 
 ##  Notes for crazy shit with `tput`.
 #
