@@ -54,7 +54,8 @@ HIGH="\[\e[01;33m\]"
 #
 #   http://www.gnu.org/software/termutils/manual/termutils-2.0/html_chapter/tput_1.html
 #
-
+#   The use of `tput' in here actually causes the first line of console input
+#   to be overwritten by the second line.
 
 
 function dir {
@@ -89,6 +90,10 @@ function red {
   tput setaf 1
 }
 
+function sgr0 {
+  tput sgr0 # Disable bold -- and more?
+}
+
 function root_warn {
   [ $1 = 'root' ] && red
 }
@@ -105,7 +110,7 @@ function ssh_style {
 
 warn=`[ \`whoami\` = root ] && echo -n $BGHI || echo -n ''`
 prompt="\`bold ; blue\`: \`ssh_style | xargs printf '%-76s' | $sub\` $FADE;
-\`bold ; blue\`:$FADE;  $REST"
+\`bold ; blue\`:$FADE;  $REST\`sgr0\`"
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
