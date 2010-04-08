@@ -9,13 +9,13 @@
 
 
 function dynamic_aliases {
-  if sed --version >&/dev/null
+  if sed --version >&/dev/null 2>&1
   then  # GNU sed
     rsed="sed -r"
   else  # BSD sed
     rsed="sed -E"
   fi
-  if ls --version >&/dev/null
+  if ls --version >&/dev/null 2>&1
   then  # GNU ls
     alias l='ls --color'
     alias ll='ls -lA --color'
@@ -46,14 +46,32 @@ FADE="\[\e[01;30m\]"
 REST="\[\e[00;00m\]"
 HIGH="\[\e[01;33m\]"
 
-d="pwd -P | $rsed 's/(.{19})..+.(.{18})/\1...\2/' | xargs printf '%-40.40s'"
-h="hostname | $rsed 's/(.{9})..+.(.{8})/\1...\2/' | xargs printf '%-20.20s'"
-u="whoami | $rsed 's/(.{6})..+.(.{6})/\1...\2/' | xargs printf '%15.15s'"
-sub="$rsed 's/^/$NORM/ ; s|/|$FADE&$NORM|g ; s/:/$DARK&$NORM/'"
-warn=`[ \`whoami\` = root ] && echo -n $NORM || echo -n $DARK`
+function dir {
+  pwd -P | $rsed 's/(.{19})..+.(.{18})/\1...\2/'  # At most 40 chars.
+}
 
-prompt="$DARK: \`$d | $sub\` $warn\`$u\`$FADE@$DARK\`$h\`$FADE;
-$DARK:$FADE ;$REST "
+function host {
+  hostname | $rsed 's/(.{9})..+.(.{8})/\1...\2/'  # At most 20 chars.
+}
+
+function user {
+  whoami | $rsed 's/(.{7})..+.(.{6})/\1...\2/'    # At most 16 chars.
+}
+
+
+# The function below does not work.
+sub="$rsed 's|/|$FADE&$NORM|g ; s/@/$FADE&$DARK/ ; s/:/$FADE&$DARK/'"
+function color {
+  $rsed 's|[@/:]|$FADE&$NORM|g'
+}
+
+function ssh_style {
+  (user; echo -n '@'; host; echo -n ':'; dir ) | xargs | sed -r 's/ //g'
+}
+
+warn=`[ \`whoami\` = root ] && echo -n $NORM || echo -n $DARK`
+prompt="$DARK: \`ssh_style | xargs printf '%-76s' | $sub\` $FADE;
+$DARK:$FADE;$REST  "
 
 prepend=''
 if [ "${TERM}" = "xterm" ]
